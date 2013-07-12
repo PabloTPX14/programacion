@@ -1,0 +1,30 @@
+// Area de triangulo.cpp : Defines the entry point for the console application.
+// Materia IS110
+// Fecha: 12 de julio
+/* Descripcion: calculo del area del triangulo
+/* Entrada : base y altura
+/* Salida  : area
+/******************************************************/
+
+#include "stdafx.h"
+#include "stdio.h"
+
+int main(void)
+{
+  int base,altura;
+	float area;
+	printf("--------Calculo del area del triangulo--------\n");
+	printf("Ingrese la base:");
+	scanf("%d", &base);
+	printf("Ingrese la altura:");
+	scanf("%d", &altura);
+	if ((base>0)&&(altura>0))
+	{
+    // Calcula el area
+	area=(base*altura)/2;
+	printf("El area del triangulo es %f",area);
+	}
+	else
+		printf("\n\n---ERROR---no se aceptan numeros negativos");
+	return(0);
+}
