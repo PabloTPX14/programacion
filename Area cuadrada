@@ -1,0 +1,15 @@
+// Area del cuadrado.cpp : Defines the entry point for the console application.
+//
+#include "stdafx.h"
+#include "stdio.h"
+#include "conio.h"
+
+void main()
+{
+  int lado, area;
+	printf("Ingresar lado:");
+	scanf("%d", &lado);
+	area=(lado*ladoo);
+	printf("El area del cuadrado es %d",area);
+	getch();
+}
