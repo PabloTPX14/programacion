@@ -1,0 +1,35 @@
+//* Conversión Numérica
+#include "stdafx.h"
+#include "conio.h"
+#include "math.h"
+
+typedef long long mi_tipo;
+
+mi_tipo cambiar_de_base(int n, int base)
+{
+  mi_tipo aux = 0, exp = 1;
+	while (n > 0)
+	{
+		aux += (n%base)*exp;
+		n /= base;
+		exp *= 10;
+	}
+	return aux;
+}
+
+void main ()
+{
+	int n;
+	long long cambiado = 0;
+	do
+	{
+		printf("N: ");
+		scanf("%d", &n);
+	} while ( n < 0 || n >= pow(2, ceil(log10(pow((double)2, (double)sizeof(mi_tipo)*8-1) - 1))));
+	for (int base = 2; base <= 9; base++)
+	{
+		cambiado = cambiar_de_base(n, base);
+		printf("El numero %d en base %d es %lld\n", n, base, cambiado);
+	}
+	getch();
+}
