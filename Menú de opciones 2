@@ -1,0 +1,54 @@
+/*MENU DE OPCIONES/
+//
+#include "stdafx.h"
+#include "conio.h"
+
+void main ()
+{
+int p;
+
+do
+{
+printf("Ingrese el peso de la carta: ");
+scanf("%d",&p);
+}while(p < 0);
+  
+       if(p <= 50)
+	{
+       printf("El costo de la carta es de Bs. 1.50");
+	}
+	else
+	{
+		if (p<=100)
+		{
+			printf("El costo de la carta es de Bs. 4.00");
+		}
+		else
+		{
+			if(p<=200)
+			{
+				printf("El costo de la carta es de Bs. 6.00");
+			}
+			else
+			{
+				if(p<=350)
+				{
+					printf("El costo de la carta es de Bs. 10.50");
+				}
+				else
+				{
+					if(p<=500)
+					{
+						printf("El costo de la carta es de Bs. 15.00");
+					}
+					else
+					{
+					printf("No puede enviar como carta");
+					}
+				}
+			}
+		}
+	}
+
+	getch();
+}
