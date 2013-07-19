@@ -1,0 +1,40 @@
+/* Nª digitos
+//
+#include "stdafx.h"
+#include "conio.h"
+#include "stdio.h"
+
+void main ()
+{
+  int n, aux;
+
+	printf("Ingrese el valor de n: ");
+	scanf("%d",&n);
+
+	aux = n%10;
+	printf("el numero tiene %d unidades\n", aux);
+	n = n/10;
+	
+	if (n>0)
+	{
+		aux = n%10;
+		printf("el numero tiene %d decenas\n", aux);
+		n =n/10;
+	}
+	
+	if (n>0)
+	{
+		aux = n%10;
+		printf("el numero tiene %d centenas\n", aux);
+		n=n/10;
+	}
+
+	if (n>0)
+	{
+	aux = n%10;
+		printf("el numero tiene %d unidades de mil \n", aux);
+		n=n/10;
+	}
+
+	getch();
+}
