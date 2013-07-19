@@ -1,0 +1,26 @@
+// Suma y porcentajes de 3 numeros.cpp : Defines the entry point for the console application.
+//
+
+#include "stdafx.h"
+#include "stdio.h"
+#include "conio.h"
+
+
+void main()
+{
+int n1,n2,n3;
+float p1,p2,p3,SUMA;
+printf("\n Ingresar los numeros: ");
+scanf("%d", &n1);
+scanf("%d", &n2);
+scanf("%d", &n3);
+SUMA=(n1+n2+n3);
+printf("\n La suma es: %f", SUMA);
+p1=((n1/SUMA)*100);
+p2=((n2/SUMA)*100);
+p3=((n3/SUMA)*100);
+printf("\n Porcentaje 1 es: %f", p1);
+printf("\n Porcentaje 2 es: %f", p2);
+printf("\n Porcentaje 3 es: %f", p3);
+getch ();
+}
