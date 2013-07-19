@@ -1,0 +1,27 @@
+// Num. Primos.cpp :
+#include"stdafx.h"
+#include"conio.h"
+#define t 10
+
+void main()
+{int A[t], i, n, c=1, d=0, cant_primo=0, no_primo=0;
+printf("Ingrese el tamaño del vector;");
+scanf("%d", &n);
+for (i=0; i<n; i++)
+{printf("A[%d] = ", i);
+scanf("%d", &A[i]); 
+while (c<=A[i])
+      {if (A[i]%c == 0) 
+  d++;
+      c++;
+      }
+if (d <= 2) //verifica si el elemento es primo
+    cant_primo++; // incrementa la cantidad de elementos primos
+else no_primo = no_primo + A[i]; //acumula los elementos no primos
+d = 0; //inicializa para el nuevo elemento vector
+c=1;
+}
+printf("Elementos primos = %d", cant_primo);
+printf("La suma de los elementos no primos = %d", no_primo);
+getch();
+}
