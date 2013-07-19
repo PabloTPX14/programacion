@@ -1,0 +1,34 @@
+//*Equación quadrática
+#include "stdafx.h"
+#include "conio.h"
+#include "math.h"
+
+void main ()
+{
+  float A, B, C;
+	float det, sol;
+
+	printf("Ingrese la variable a: ");
+	scanf("%d", &A);
+
+	printf("Ingrese la variable b: ");
+	scanf("%d", &B);
+	
+	printf("Ingrese la variable c: ");
+	scanf("%d", &C);
+
+	det =  (B*B) - 4*A*C;
+
+	if(det >= 0)
+	{
+		sol = (-B+ sqrt(det))/(2*A);
+		printf("\n La primera solucion es X=%.2f", sol);
+		sol = (-B- sqrt(det))/(2*A);
+		printf("\nLa segunda solucion es X=%.2f", sol);
+	}
+	else
+		printf("La solucion es imaginaria");
+
+
+	getch();
+}
