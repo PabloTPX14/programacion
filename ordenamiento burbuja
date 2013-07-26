@@ -1,0 +1,43 @@
+// Ordenamiento Burbuja.cpp : Defines the entry point for the console application.
+//
+
+#include "stdafx.h"
+#include "stdio.h"
+#include "conio.h"
+#define NMAX 100
+int main()
+{
+  int n,i,j,aux,vec[NMAX];
+	//Pedir numero de valores a cargar
+	do
+	{
+		printf("Ingrese el numero de elementos del vector: ");
+		scanf("%d", &n);
+	}
+	while ((n>100)||(n<=0));
+
+	//Cargar el vector de valores iniciales
+	for (i=0;i<n;i++)
+	{
+		printf("vec [%d]= ",i);
+		scanf("%d", &vec[i]);
+	}
+	//Clasificar el vector con burbuja
+	for (i=0;i<n-1;i++)
+		for (j=i+1;j<n;j++)
+			if (vec[i] > vec[j])
+			{
+				aux=vec[j];
+				vec[j]=vec[i];
+				vec[i]=aux;
+			}
+	//Mostrar vector
+    for (i=0;i<n;i++)
+	{
+	printf("vec [%d]= ", i);
+	printf("%d", vec[i5
+	],"\n");
+	}
+	getch();
+return(0);
+}
