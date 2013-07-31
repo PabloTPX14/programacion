@@ -1,0 +1,55 @@
+#include "stdafx.h"
+#include "stdio.h"
+#include "conio.h"
+#define NMAX 100
+
+void leervec (int*codigo[], float*precio[], int*cantidad[])
+void totalpago (float precio[], int cantidad, float*total)
+void mostrarvec(int codigo[], float precio[], int cantidad[])
+void main()
+{
+int n, codigo[NMAX], cantidad[NMAX], float precio[NMAX], total, char cliente[50];
+printf("--------FACTURA--------");
+printf("Nombre Cliente");
+scanf("%c", &Cliente[50]);
+printf("cantidad de productos: );
+scanf("%d", &n);
+leervec(&codigo, &precio, &cantidad);
+totalpago(precio, cantidad, &total);
+printf("--------FACTURA--------");
+printf("Cliente: %c", Cliente[50]);
+printf("Codigo Producto--Precio Unitario--Cantidad");
+mostrarvec(codigo, precio, cantidad);
+printf("Total a pagar: %f", total);
+getch();
+}
+void leervec (int*codigo[], float*precio[], int*cantidad[])
+{
+int i;
+for (i=0; i n; i++)
+    {
+    printf("Codigo: ");
+    scanf("%d", &codigo[i]);
+    printf("Precio: ");
+    scanf("%f", &precio[i]);
+    printf("Cantidad: );
+    scanf("%d", &cantidad[i]);
+    }
+}
+void totalpago (float precio[], int cantidad, float*total)
+{
+int i;
+float*total=0;
+for (i=0; i n; i++)
+    {
+    *total=*total+(precio[i]+cantidad[i]);
+    }
+}
+mostrarvec(in codigo[NMAX], float precio[NMAX], int cantidad[NMAX]);
+{
+int i;
+for (i=0; i n; i++)
+    {
+    printf("%d","%f","%d", codigo[i], precio[i], cantidad[i]);
+    }
+}
