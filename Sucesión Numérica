@@ -1,0 +1,29 @@
+// Sucesión de números.cpp : main project file.
+
+#include "stdafx.h"
+#include "conio.h"
+
+void main()
+{
+    int f=0, n1=0, n2=1, i=1, N;
+  printf("El valor de N es: ");
+	scanf("%d",&N);
+	if (N<=0)
+		printf("\nN es muy pequeño");
+	else
+	{ if (N==1)
+	printf("escribir: %d", n2);
+	else
+	{
+	printf("escribir: %d", n2)
+	for(i=2;i<=N;i++)
+	{ 
+	f=n1+n2;
+	printf("\nescribir: %d", f);
+	n1=n2;
+	n2=f;
+	}
+	}
+	}
+	_getch();
+}
