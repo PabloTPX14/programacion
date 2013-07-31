@@ -1,0 +1,56 @@
+#include "stdafx.h"
+#include "conio.h"
+#include "math.h"
+#define t 100000
+void main()
+{int i, a[t], b=1;
+printf("V[0]= 1  \t");
+for(i=1; i<8; i++)
+  {b = 2*b;
+	a[i]= b;
+	printf("V[%d]= %d  \t", i, a[i]);
+	}
+printf("\n");
+for(i=8; i<16; i++)
+	{b = 2*b;
+	a[i]= b;
+	printf("V[%d]= %d  \t", i, a[i]);
+	}
+printf("\n");
+for(i=16; i<24; i++)
+	{b = 2*b;
+	a[i]= b;
+	printf("V[%d]= %d\t", i, a[i]);
+	}
+printf("\n");
+for(i=24; i<32; i++)
+	{b = 2*b;
+	a[i]= b;
+	printf("V[%d]= %d ", i, a[i]);
+	}
+printf("\n");
+for(i=32; i<40; i++)
+	{b = 2*b;
+	a[i]= b;
+	printf("V[%d]= %d ", i, a[i]);
+	}
+printf("\n");
+for(i=40; i<48; i++)
+	{b = 2*b;
+	a[i]= b;
+	printf("V[%d]= %d ", i, a[i]);
+	}
+printf("\n");
+for(i=48; i<56; i++)
+	{b = 2*b;
+	a[i]= b;
+	printf("V[%d]= %d ", i, a[i]);
+	}
+printf("\n");
+for(i=56; i<64; i++)
+	{b = 2*b;
+	a[i]= b;
+	printf("V[%d]= %d ", i, a[i]);
+	}
+printf("\n\nSolo se puede llenar hasta 30 n\n");
+}
