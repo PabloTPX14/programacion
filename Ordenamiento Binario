@@ -1,0 +1,54 @@
+//Ordenamiento Binario.cpp
+
+#include "stdafx.h"
+#include "stdio.h"
+#include "conio.h"
+#define TAM
+
+void main()
+{
+int a [TAM], busca, temp, bajo, alto, central;
+printf("Llevando el arreglo con numeros aleatorios");
+randomize(); //Inicializa el generador d'aleatorios
+for (i=0;i<TAM;i++)
+    a[i]=random(100);
+    
+//Implementación d'ordenamiento por burbuja
+
+printf("Ordenar arreglo");
+for (int j=1;j<=TAM;j++)
+    for(i=0;i<TAM-1;i++)
+    if(a[i+1]<a[i])
+    {
+    temp=a[i];
+    a[i]=a[i+1];
+    a[i+1]=temp;
+    }
+    
+//Implementación de busqueda binaria
+
+printf("Introducir numero a buscar: ");
+scanf("%d", &busca);
+bajo=0;
+alto=TAM-1;
+central=(bajo+alto)/2;
+while (bajo<alto&&busca!=a[central])
+{
+if(a[central]<busca)
+  bajo=central+1;
+else
+{
+alto=central-1;
+central=(bajo+alto)/2;
+}
+}
+if(busca==a[central])
+   printf("%d encontrado en posicion %d", busca, central);
+else
+{
+   printf("%d no existe", busca);
+}
+for (i=0;i<TAM;i++)
+   printf("%d", a[i]);
+getch()
+}
