@@ -1,0 +1,29 @@
+#include "stdafx.h"
+#include "stdio.h"
+#include "conio.h"
+#include "math.h"
+
+void main()
+{
+  printf("\t==PRECIO DE VENTA==\n");
+	printf("\t ==================\n");
+	float N, nh, i;
+	float p, a, prom, S, cal;
+	printf("INGRESE NUMERO DE GALLINAS: \n");
+	scanf("%d",&N);
+	S=0;
+	for(i=0; i<=N; i++)
+	{
+		printf("INGRESE PESO DE GALLINA: \n");
+		scanf("%d",&p);
+		printf("INGRESE ALTURA DE GALLINA: \n");
+		scanf("%d",&a);
+		printf("INGRESE NUMERO de HUEVOS QUE PONE SU GALLINA: \n");
+		scanf("%d",&nh);
+		cal = (p * a) / nh;
+		S = S + cal;
+	}
+	prom = S / N;
+	if
+	getch();
+}
