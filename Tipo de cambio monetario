@@ -1,0 +1,28 @@
+#include "stdafx.h"
+#include "stdio.h"
+#include "conio.h"
+
+
+void main()
+{ 
+  float monto,tipo,Sus;
+
+	printf("\t	Calculo DEL TIPO DE CAMBIO\n");
+	printf("\t	==========================\n");
+	printf("INGRESE MONTO = "); //M
+	scanf("%d",&monto);
+	printf("\nINGRESE TIPO DE CAMBIO = "); //TOMANDO EN CUENTA QUE ES DOLARES
+	scanf("%d",&tipo);
+	
+	if(monto>=0 && tipo>=0 )// no permite numeros negativos en el calculo
+		{
+		//calcula el tipo de cambio
+		Sus= monto/tipo;
+		}
+	else 
+		printf("ERROR NO SE PERMITEN NEGATIVOS");
+
+	printf("\nEL TIPO DE CAMBIO CONVERTIDO ES: %f",Sus);
+	
+	getch();
+}
