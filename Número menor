@@ -1,0 +1,28 @@
+#include "stdafx.h"
+#include "stdio.h"
+#include "conio.h"
+
+
+void main()
+{ 
+  int A,B,C;
+	printf("\t CALCULO DEL MENOR NUMERO\n");
+	printf("\t ========================\n");
+	printf("INGRESE VALORES:\n");
+	scanf("%d",&A);
+	scanf("%d",&B);
+	scanf("%d",&C);
+	if(A<B)
+	{
+		if(A<C)
+			printf("EL MENOR ES %d",A);
+		else
+			printf("EL MENOR ES %d",C);
+	}
+	else
+		if(B<C)
+			printf("EL MENOR ES %d",B);
+		else
+			printf("EL MENOR ES %d",C);
+	getch();
+}
