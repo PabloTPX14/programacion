@@ -1,0 +1,24 @@
+#include "stdafx.h"
+#include "stdio.h"
+#include "conio.h"
+
+
+void main()
+{ 
+  float A,B,C,D,E,PROMEDIO;
+
+	printf("\t	Calculo DEL PROMEDIO DE 5 NUMEROS\n");
+	printf("\t	=================================\n");
+	printf("INGRESE VALORES = \n");
+	scanf("%f",&A);
+	scanf("%f",&B);
+	scanf("%f",&C);
+	scanf("%f",&D);
+	scanf("%f",&E);
+	
+	PROMEDIO=(A+B+C+D+E)/5;
+
+		printf("\nEL PROMEDIO ES DE: %f",PROMEDIO);
+	
+	getch();
+}
