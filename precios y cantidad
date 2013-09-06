@@ -1,0 +1,29 @@
+// Nuevo.cpp : Defines the entry point for the console application.
+//
+
+#include "stdafx.h"
+#include <iostream>
+#include "conio.h"
+
+using namespace std;
+
+void main()
+{
+float precio1, precio2, precio3, S;
+int cantidad1, cantidad2, cantidad3;
+cout<<"Ingresar precio1: ";
+cin>>precio1;
+cout<<"Ingresar cantidad1: ";
+cin>>cantidad1;
+cout<<"Ingresar precio2: ";
+cin>>precio2;
+cout<<"Ingresar cantidad2: ";
+cin>>cantidad2;
+cout<<"Ingresar precio3: ";
+cin>>precio3;
+cout<<"Ingresar cantidad3: ";
+cin>>cantidad3;
+S=(precio1*cantidad1+precio2*cantidad2+precio3*cantidad3);
+cout<<"el precio total es: "<<S;
+getch();
+}
