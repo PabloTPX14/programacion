@@ -1,0 +1,26 @@
+// Ejercicio para el Foro.cpp : Defines the entry point for the console application.
+//
+
+#include "stdafx.h"
+#include "stdio.h"
+#include "conio.h"
+
+
+void main()
+{
+	int a;
+	printf("======EDADES======\n");
+	printf("\nIngrese la edad: ");
+	scanf("%d", &a);
+	if(a<12)
+		printf("\nEs ninho");
+	else
+		if(a<19)
+		printf("\nEs adolescente");
+		else
+			if(a<59)
+		    printf("\nEs adulto");
+			else
+		    printf("\nEs anciano");
+	getch();
+}
