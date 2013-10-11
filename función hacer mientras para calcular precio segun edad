@@ -12,7 +12,7 @@ float precio, s, p; //p pago
 s=0;
 cout<<"Ingresar numero de butacas: ";
 cin>>n;
-cout<<"Ingrese precio;
+cout<<"Ingrese precio: ";
 cin>>precio;
 for (i=1;i<=n;i++)
    {
