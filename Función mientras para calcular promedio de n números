@@ -1,0 +1,29 @@
+// Promedio con funcion mientras.cpp : Defines the entry point for the console application.
+//
+
+#include "stdafx.h"
+#include <iostream>
+#include "conio.h"
+
+using namespace std;
+
+int main()
+{
+	float n, suma, cont, q, prom; //q valor de numeros ingresados
+	cout<<"========FUNCION MIENTRAS=======";
+	cout<<"Ingrese cantidad de numeros: ";
+	cin>>n;
+	suma=0; //acumulador
+	cont=0; //contador
+	while (n>cont)
+	{     
+		cout<<"Ingrese numero: ";
+		cin>>q;
+		suma=suma+q;
+		cont=cont+1;
+	}
+	prom=(suma/n);
+	cout<<"El promedio de los numeros es: "<<prom;
+	getch();
+	return 0;
+}
