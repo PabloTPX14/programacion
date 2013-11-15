@@ -1,0 +1,25 @@
+#include "stdafx.h"
+#include <iostream>
+#include "conio.h"
+
+using namespace std;
+
+void cargar (int vec[ ], int N);
+void mostrar (int vec[ ], int N);
+void clasificar (int vec[ ], int N);
+
+int main()
+{
+int v[100], N, MEN[100], MAY[100];
+do
+  {
+   cout<<"Ingresar el numero de elementos: ";
+   cin>>N;
+  }
+  while (N%2!=0)
+  cargar(v, N);
+  for (int i=1;i<=N/2;i++)
+  MEN[i]=V[i];
+  for (int i=1;i<=N/2;i++)
+  MAY[i]=V[i];
+}
