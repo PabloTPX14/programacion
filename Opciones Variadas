@@ -1,0 +1,99 @@
+// Opciones Variadas.cpp : Defines the entry point for the console application.
+//
+
+#include "string.h"
+#include "stdafx.h"
+#include "conio.h"
+#include "iostream"
+#define caracter 20 //TAMAÑO DE PALABRA
+#define cant_trabajador 100 //CANTIDAD MAXIMA DE PRODUCTOS
+
+void main()
+{ char AUX[caracter];
+  char NOMBRE[caracter][cant_trabajador],APELLIDO[caracter][cant_trabajador] ;
+  int n,i, j, aux, op=0, SALARIO[cant_trabajador];
+  do{
+          printf("\t\t MENU");
+                printf("\n 1. Ingrese los datos");
+                printf("\n 2. Orden los datos por Apellido");
+                printf("\n 3. Orden los datos por Nombre");
+                printf("\n 4. Orden los datos por Salario");
+                printf("\n 0. Salir");
+                printf("\n Elija una opcion: ");
+                scanf("%d", &op);
+        switch(op){
+         case 1:        printf("\n Cuantos datos ingresara: ");
+			            scanf("%d", &n);
+                                for(i=0; i<n; i++) //Ingreso de datos
+                                        {printf("Nombre Trabajador %d:", i);
+                                        scanf("%s", NOMBRE[i]); 
+                                        printf("Apellido Trabajador %d:", i);
+                                        scanf("%s", APELLIDO[i]); //No necesita & para ingresar valores
+                                        printf("Salario de Trabajador %d:", i);
+                                        scanf("%d", &SALARIO[i]); 
+                                        }
+                                break;
+         case 2:        system("cls"); //limpia la pantalla
+                                for(j=0; j<n-1; j++)
+                                        for(i=0; i<n-1; i++)
+                                                {if (strcmp(APELLIDO[i], APELLIDO[i+1]) > 0 )
+                                                        {strcpy(AUX, APELLIDO[i]); //swap del apellido
+                                                         strcpy(APELLIDO[i], APELLIDO[i+1]);
+                                                         strcpy(APELLIDO[i+1], AUX);
+
+                                                         strcpy(AUX, NOMBRE[i]); //swap del nombre
+                                                         strcpy(NOMBRE[i], NOMBRE[i+1]);
+                                                         strcpy(NOMBRE[i+1], AUX);
+                                                        
+                                                         aux= SALARIO[i]; //swap del salario
+                                                         SALARIO[i]= SALARIO[i+1];
+                                                         SALARIO[i+1]=aux;
+                                                        }
+                                                }
+                                for(i=0; i<n; i++)
+                                        {printf("\n%d.- %s %s %d",i, APELLIDO[i],NOMBRE[i],SALARIO[i]);
+                                        }
+                                _getch(); //espera para mostrar el MENU
+                                break;
+        case 3:        for(j=0; j<n-1; j++)
+                                        for(i=0; i<n-1; i++)
+                                                {if (strcmp(NOMBRE[i], NOMBRE[i+1]) > 0 )
+                                                        {strcpy(AUX, NOMBRE[i]);
+                                                         strcpy(NOMBRE[i], NOMBRE[i+1]);
+                                                         strcpy(NOMBRE[i+1], AUX);
+
+                                                         strcpy(AUX, APELLIDO[i]);
+                                                         strcpy(APELLIDO[i], APELLIDO[i+1]);
+                                                         strcpy(APELLIDO[i+1], AUX);
+                                                                                                         
+                                                         aux= SALARIO[i];
+                                                         SALARIO[i]= SALARIO[i+1];
+                                                         SALARIO[i+1]=aux;
+                                                        }
+                                                }
+                                for(i=0; i<n; i++)
+                                        printf("\n Nombre %d: %s",i, NOMBRE[i]);
+                                break;
+        case 4:        for(j=0; j<n-1; j++)
+                                        for(i=0; i<n-1; i++)
+                                                {if (SALARIO[i]>SALARIO[i+1])
+                                                        {aux= SALARIO[i];
+                                                         SALARIO[i]= SALARIO[i+1];
+                                                         SALARIO[i+1]=aux;
+
+                                                         strcpy(AUX, NOMBRE[i]);
+                                                         strcpy(NOMBRE[i], NOMBRE[i+1]);
+                                                         strcpy(NOMBRE[i+1], AUX);
+
+                                                         strcpy(AUX, APELLIDO[i]);
+                                                         strcpy(APELLIDO[i], APELLIDO[i+1]);
+                                                         strcpy(APELLIDO[i+1], AUX);
+                                                        }
+                                                }
+                                for(i=0; i<n; i++)
+                                        printf("\n SALARIO %d: %d",i, SALARIO[i]);
+                                break;
+        default: break;
+        }
+  }while(op != 0);
+}
