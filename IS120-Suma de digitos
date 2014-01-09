@@ -1,0 +1,36 @@
+#include <iostream>
+#include <conio.h>
+
+using namespace std;
+
+int numDigitos(int n)
+{
+	int c=0;
+	while(n>0)
+	{
+	n=n/10;
+	c=c+1;
+	}
+	return(c);
+}
+int sumarDigitos(int n)
+{
+int d,s=0;
+while(n>0)
+{d=n%10;
+s=s+d;
+n=n/10;
+}
+return(s);
+}
+
+int main()
+{
+int nr,r;
+cout<<"Introducir numero: ";
+cin>>nr;
+r=sumarDigitos(nr);
+cout<<endl<<"La suma de digitos de: "<<nr<<", es -->>" <<r;
+getch();
+return(1);
+}
