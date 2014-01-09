@@ -1,0 +1,27 @@
+#include <iostream>
+#include <conio.h>
+
+using namespace std;
+
+int Invertir(int n)
+{
+	int d,newnro=0;
+while(n>0)
+{
+	d=n%10;
+	newnro=newnro*10+d;
+	n=n/10;
+}
+return(newnro);
+}
+
+int main()
+{
+int nr,r;
+cout<<"Introducir numero: ";
+cin>>nr;
+r=Invertir(nr);
+cout<<endl<<"El numero invertido de: "<<nr<<", es -->>" <<r;
+getch();
+return(1);
+}
