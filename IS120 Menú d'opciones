@@ -1,0 +1,89 @@
+#include <iostream>
+#include <conio.h>
+
+using namespace std;
+
+int numDigitos(int n)
+{
+        int c=0;
+        while(n>0)
+        {
+        n=n/10;
+        c=c+1;
+        }
+        return(c);
+}
+
+int sumarDigitos(int n)
+{
+int d,s=0;
+while(n>0)
+{
+   d=n%10;
+   s=s+d;
+   n=n/10;
+}
+return(s);
+}
+
+int sumarDigitosImpares(int n)
+{
+int d,s=0;
+while(n>0)
+{
+        d=n%10;
+        if(d%2!=0)
+        {
+        s=s+d;
+        }
+        n=n/10;
+}
+return(s);
+}
+
+int Invertir(int n)
+{
+	int d,newnro=0;
+while(n>0)
+{
+	d=n%10;
+	newnro=newnro*10+d;
+	n=n/10;
+}
+return(newnro);
+}
+
+int main()
+{
+int nr,r,op;
+cout<<"Introducir numero: ";
+cin>>nr;
+do
+{
+	cout<<endl<<"*******MENU*******";
+	cout<<endl<<"==================";
+	cout<<endl<<"1.- Contar Digitos.";
+	cout<<endl<<"2.- Sumar todos los digitos.";
+	cout<<endl<<"3.- Sumar digitos impares.";
+	cout<<endl<<"4.- Invertir numero.";
+	cout<<endl<<"5.- Salir";
+	cout<<endl<<"Seleccione opcion -->>: ";
+	cin<<op;
+	switch(op)
+	{
+		case 1: r = numDigitos(nr);	
+			cout <<endl<< "El numero de digitos de: "<<nr<<", es -->>" >>r;
+			break;
+		case 2: r = sumarDigitos(nr);
+			cout <<endl<< "La suma de todos los digitos de: "<<nr<<", es -->>" >>r;
+			break;
+		case 3: r = sumarDigitosImpares(nr);
+			cout <<endl<< "La suma de todos los digitos impares de: "<<nr<<", es -->>" >>r;
+			break;
+		case 4: r = Invertir(nr);
+			cout <<endl<< "El numero invertido de: "<<nr<<", es -->>" >>r;
+			break;
+	}
+}while(op!=0);
+return(1);
+}
