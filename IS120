@@ -1,0 +1,79 @@
+#include <iostream>
+#include <conio.h>
+using namespace std;
+
+void cargarvec(int vec[],int n)
+{ 
+	int i;
+	for(i=0;i<n;i++)
+	{
+		cout<<"ingrese el elemento "<<i<<"  ";
+		cin>>vec[i];
+		cout<<endl;
+	}
+}
+void mostrarvec(int vec[],int n)
+{ 
+	int i;
+	cout<<endl;
+	for(i=0;i<n;i++)
+	{
+		cout<<"vec["<<i<<"]="<<vec[i]<<endl;
+	}
+}
+bool esfibo(int n)
+{
+	bool respuesta=false;
+	int ult=-1,pult=1,fibo=0;
+	while((fibo<n) && (respuesta==false))
+	{
+		fibo=ult+pult;
+		ult=pult;
+		pult=fibo;
+		if(fibo==n)
+		{
+			respuesta=true;
+		}
+	}
+	return(respuesta);
+}
+bool tienedigfibo(int n)
+{
+   bool tienefibo=false;
+   int dig;
+while((n>0) && (tienefibo == false))
+{
+	dig=n%10;
+	if(esfibo(dig)==true)
+	{
+		tienefibo=true;
+	}
+	n=n/10;
+}
+return tienefibo;
+}
+
+int sumdigfibo(int vec[], int n)
+{
+	int i,s=0;
+	for(i=0;i<n;i++)
+	{
+		if(tienedigfibo(vec[i])==true)
+		{
+			s=s+vec[i];
+		}
+	}
+	return(s);
+}
+int main()
+{
+	int num,vec[30];
+	cout<<"Ingrese el tamaño del vector"<<endl;
+	cin>>num;
+	cargarvec(vec,num);
+	mostrarvec(vec,num);
+	cout<<"la suma de digitos es:"<<endl;
+	cout<<endl<<sumdigfibo(vec,num);
+	getch();
+	return(1);
+}
