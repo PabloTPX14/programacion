@@ -1,0 +1,79 @@
+//1º EXAMEN PRACTICO IS120
+//PABLO ALBERTO TANGO - 2007211211
+// Suma de vectores con digitos pertenecientes a serie fibonacci.cpp : main project file.
+
+#include "stdafx.h"
+#include <iostream>
+#include <conio.h>
+using namespace std;
+
+void cargarvector(int vec[], int n)
+{
+    int i;
+    for (i=0; i<n; i++)
+	   {
+		cout<<"Ingrese valores en elementos del vector:  "<<i<<endl; //Se ingresa los valores para cada uno de los elementos
+		cin>>vec[i];
+	   }
+}
+
+void mostrarvector(int vec[], int n)
+{
+    int i;
+    for (i=0; i<n; i++)
+	   {
+		cout<<"vec[: "<<i<<"]"<<vec[i]<<endl; //Muestra el vector una vez resuelto
+		cin>>vec[i];
+	   }
+}
+void fibonacci(int vec[], int n) //Identificador de numeros con digitos pertenecientes a serie fibonacci
+{
+int fibo=0, a, b;
+while(n>0)
+     {
+		 a=b;
+		 b=fibo;
+		 fibo=a;
+     }
+}
+int sumadigitosfibonacci(int vec[], int n) //Indica la sumatoria de los numeros identificados
+{
+	int i, dig, s=0; //suma de los digitos con serie fibonacci
+    for (i=0; i<n; i++)
+	{
+		while (vec[i]>0)
+	    {
+			dig=vec[i]+1;
+	    }
+		if (sumadigitosfibonacci (vec[i] == (true)))
+	    {
+			s=s+vec[i];
+		}
+	}
+}
+bool digitofibo(int n)
+{
+bool digitofibo = false;
+int digito;
+while((n>0)&& (digitofibo == false))
+     {
+		 digito=n%10;
+		 if(digito ==true)
+		 {
+		 digitofibo=true;
+		 }
+		 n=n/10;
+     }
+}
+int main()
+{
+	int nm, vec[6];
+	cout<<endl<<"Ingrese tamaño del vector: "<<endl;
+	cin>>nm;
+	cargarvector(vec, nm);
+	mostrarvector(vec, nm);
+	fibonacci(vec, nm);
+	sumadigitosfibonacci(vec, nm);
+	getch();
+	return(1);
+}
