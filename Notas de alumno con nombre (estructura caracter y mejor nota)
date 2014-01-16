@@ -1,0 +1,63 @@
+// Nuevo Proyecto con caracteres y vectores.cpp : main project file.
+/* PABLO ALBERTO TANGO - Nº Registro: 2007211211 - IS120
+*/
+#include "stdafx.h"
+#include <iostream>
+#include <conio.h>
+#include <string.h>
+
+using namespace std;
+struct alumno //Función para mencionar el parametro fundamental con caracteres y variable declarada
+{
+	char nombre [30];
+	int nota;
+};
+
+void cargar(alumno vec[], int n)
+{
+	int i;
+	for (i=0; i<n; i++)
+    {
+		cout<<"Introducir nombre: "; //Nombre de alumno
+		do
+		{
+			gets(vec[i].nombre); //Vector asociado al nombre
+		}
+		while(strlen(vec[i].nombre) == 0);
+		cout<<"Nota: ";
+		cin>>vec[i].nota; //Vector asociado a la nota
+    }
+}
+
+void mostrar (alumno vec[], int n)
+{
+	int i;
+	for (i=0; i<n; i++)
+	{
+		cout<<endl<<vec[i].nombre<<endl<<vec[i].nota<<endl;
+	}
+}
+void mostrarmejoralumno (alumno vec[], int n)
+{
+	int i, notamay=0;
+	char nombrenotamay[30];
+	for(i=0; i<n; i++)
+		if(vec[i].nota > notamay)
+		{
+			notamay = vec[i].nota;
+			strcpy(nombrenotamay,vec[i].nombre);
+		}
+		cout<<"La mejor nota es: "<<notamay<<endl<<"Pertenece a: "<<nombrenotamay<<endl;
+}
+int main()
+{
+	alumno vector[50];
+	int numeroalumno;
+	cout<<"Número de alumnos de curso: ";
+	cin>>numeroalumno;
+	cargar(vector, numeroalumno);
+	mostrar(vector, numeroalumno);
+	mostrarmejoralumno(vector, numeroalumno);
+	getch();
+	return(1);
+}
