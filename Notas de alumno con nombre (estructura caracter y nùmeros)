@@ -1,0 +1,51 @@
+// Nuevo Proyecto con caracteres y vectores.cpp : main project file.
+/* PABLO ALBERTO TANGO - Nº Registro: 2007211211 - IS120
+*/
+#include "stdafx.h"
+#include <iostream>
+#include <conio.h>
+#include <string.h>
+
+using namespace std;
+struct alumno //Función para mencionar el parametro fundamental con caracteres y variable declarada
+{
+	char nombre [30];
+	int nota;
+};
+
+void cargar(alumno vec[], int n)
+{
+	int i;
+	for (i=0; i<n; i++)
+    {
+		cout<<"Introducir nombre: "; //Nombre de alumno
+		do
+		{
+			gets(vec[i].nombre); //Vector asociado al nombre
+		}
+		while(strlen(vec[i].nombre) == 0);
+		cout<<"Nota: ";
+		cin>>vec[i].nota; //Vector asociado a la nota
+    }
+}
+
+void mostrar (alumno vec[], int n)
+{
+	int i;
+	for (i=0; i<n; i++)
+	{
+		cout<<endl<<vec[i].nombre<<vec[i].nota;
+	}
+}
+
+int main()
+{
+	alumno vector[50];
+	int numeroalumno;
+	cout<<"Nº de alumnos de curso: ";
+	cin>>numeroalumno;
+	cargar(vector, numeroalumno);
+	mostrar(vector, numeroalumno);
+	getch();
+	return(1);
+}
