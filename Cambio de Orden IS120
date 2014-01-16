@@ -1,0 +1,99 @@
+// Nuevo Proyecto con caracteres y vectores.cpp : main project file.
+/* PABLO ALBERTO TANGO - Nº Registro: 2007211211 - IS120
+*/
+#include "stdafx.h"
+#include <iostream>
+#include <conio.h>
+#include <string.h>
+
+using namespace std;
+struct alumno //Función para mencionar el parametro fundamental con caracteres y variable declarada
+{
+	char nombre [30];
+	int nota;
+};
+
+void cargar(alumno vec[], int n)
+{
+	int i;
+	for (i=0; i<n; i++)
+    {
+		cout<<"Introducir nombre: "; //Nombre de alumno
+		do
+		{
+			gets(vec[i].nombre); //Vector asociado al nombre
+		}
+		while(strlen(vec[i].nombre) == 0);
+		cout<<"Nota: ";
+		cin>>vec[i].nota; //Vector asociado a la nota
+    }
+}
+
+void mostrar (alumno vec[], int n)
+{
+	int i;
+	for (i=0; i<n; i++)
+	{
+		cout<<endl<<vec[i].nombre<<endl<<vec[i].nota<<endl;
+	}
+}
+int obtenerNotaMayor(alumno vec[], int n)
+{
+	int i, notamay=0;
+	for(i=0; i<n; i++)
+	{
+		if(vec[i].nota > notamay)
+		{
+			notamay = vec[i].nota;
+		}
+	}
+return(notamay);
+}
+
+void mostrarmejoresalumnos(alumno vec[], int n)
+{
+	int i, notamay = obtenerNotaMayor(vec,n);
+	cout<<endl<<"La mejor nota es: "<<endl<<notamay;
+	for(i=0; i<n; i++)
+	{
+		if(vec[i].nota == notamay)
+		{
+			cout<<endl<<"Nombre: "<<vec[i].nombre;
+		}
+	}
+}
+
+void cambiarOrden(char cad[])
+{
+	char pal1[30], pal2[30];
+	int i, k=0;
+	while((cad[i]!=' ') && cad[i]!='\0'))
+	{
+		pal1[i]=cad[i];
+		i++;
+	}
+	pal1[i]='\0';
+	while(cad[i]!='\0')
+	{
+		pal2[k]=cad[i];
+		i++;
+		k++;
+	}
+	pal2[k]='\0';
+	strcat(pal2," ");
+	strcat(pal2,pal1);
+	strcpy(cad,pal2);
+}
+
+int main()
+{
+	alumno vector[50];
+	int numeroalumno;
+	char cad[30];
+	strcpy(cad,"ENRIQUE MANRIQUE");
+	cout<<cad;
+	cambiarOrden(cad);
+	cout<<endl<<cad;
+	getch();
+	return(1);
+}
