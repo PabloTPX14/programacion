@@ -1,0 +1,62 @@
+// Polinomio.cpp : main project file.
+
+#include "stdafx.h"
+#include <iostream>
+#include <conio.h>
+using namespace std;
+
+struct termino {
+	int coef;
+	int expo;
+};
+
+void cargar(termino poli[], int nroterm)
+{
+	int i;
+	for (i=0; i<nroterm; i++)
+	{
+		cout<<"Coeficiente: "; //valor entero que multiplica la variable
+		cin>> poli[i].coef;
+		cout<<"Exponente: "; //exponente a elevar para la incognita x
+		cin>> poli[i].expo;
+	}
+}
+
+void mostrar(termino poli[], int nroterm)
+{
+	int i;
+	cout<<endl<<"El polinomio es >>>>>" <<endl;
+	for (i=0; i<nroterm; i++) //acumulador de valores de n terminos
+	{
+		if((poli[i].coef>0) && (i>0))
+			cout<<"+";
+		if(poli[i].expo > 1)
+			cout<<"X"<<poli[i].expo;
+		if(poli[i].expo == 1)
+			cout<<"X";
+	}
+	cout<<endl;
+}
+
+void SumarPolis(termino p[], int np, termino q[], int nq, termino r[], int &nr)
+{
+}
+
+int main()
+{
+	termino p[20],q[20],r[20];
+	int np,nq,nr=0;
+	cout<<"Numero de terminos de polinomio 1: ";
+	cin>>np;
+	cargar(p,np);
+	mostrar(p,np);
+	cout<<"Numero de terminos de polinomio 2: ";
+	cin>>nq;
+	cargar(q,nq);
+	mostrar(q,nq);
+	SumarPolis(p,np,q,nq,r,nr);
+	cout<<endl<<"La Suma de los polinomios es >>>>"<<endl;
+	mostrar(r,nr);
+	getch();
+  return(1);
+}
