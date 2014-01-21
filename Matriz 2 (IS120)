@@ -1,0 +1,84 @@
+// Matriz.cpp : Defines the entry point for the console application.
+//
+#include "stdafx.h"
+#include <iostream>
+#include <conio.h>
+
+using namespace std;
+#define NFIL 20
+#define NCOL 20
+
+void cargar(int mat[NFIL][NCOL], int n, int m)
+{
+	int i,j;
+	for (i=0; i<n; i++)
+	{
+		for (j=0; j<n; j++)
+		{
+			cout<<"Introducir elemento: ";
+			cin>>mat[i][j];
+		}
+		cout<<endl;
+	}
+	cout<<endl;
+}
+
+void mostrar(int mat[NFIL][NCOL], int n, int m)
+{
+	int i,j;
+	for (i=0; i<n; i++)
+	{
+		for (j=0; j<n; j++)
+		{
+			cout<<mat[i][j]<< " ";
+		}
+	cout<<endl;
+	}
+}
+
+void mostrarXcolcharVector(int mat[NFIL][NCOL], int n, int m, int vec[], int &nv)
+{
+	int i,j,s=0;
+	for (i=0; i<n; i++)
+	{
+		for (j=0; j<n; j++)
+		{
+			s=s + mat[i][j];
+		}
+	vec[i] = s;
+	s = 0;
+	}
+	nv = m;
+}
+
+int SumarTrianguloSup(int mat[NFIL][NCOL], int n, int m, int vec[])
+{
+	int i,j,s=0;
+	for (i=0; i<n; i++)
+	{
+		for (j=0; j<n; j++)
+		{
+			if (i < j)
+			{
+			s = s + mat[i][j];
+			}
+		}
+    }
+return(s);
+}
+
+int main()
+{
+	int matriz[NFIL][NCOL],n,m;
+	cout<<"Ingrese numero de filas: ";
+	cin>>n;
+	cout<<"Ingrese numero de columnas: ";
+	cin>>m;
+	cout<<endl;
+	cargar(matriz, n, m);
+	mostrar(matriz, n, m);
+	cout<<endl<<"La suma es: " << mostrarXcolcharVector (matriz, n, m);
+	cout<<endl<<"La suma del triangulo superior de la matriz es: " << SumarTrianguloSup(matriz,n,m);
+	getch();
+	return(1);
+}
