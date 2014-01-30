@@ -1,0 +1,3978 @@
+#include <iostream>
+#include <stdio.h>
+#include <conio.h>
+#include <string.h>
+
+using namespace std;
+
+#define dirArchAuxiliar "Auxiliar.dat"
+int leerNumeroEntero(char nombreNum[51]);
+bool esNumeroEntero(char numero[11]);
+int obtenerNumeroEntero(char numero[11]);
+
+float leerNumeroReal(char nombreNum[51]);
+bool esNumeroReal(char numero[11]);
+float obtenerNumeroReal(char numero[11]);
+bool estaRepetido(char numero[11], char caracter);
+
+void leerFecha(char fecha[11], char nombreFecha[]);
+bool fechaValida(char fecha[11]);
+void fechaToInt(char fecha[11], int &dia, int &mes, int &anho);
+void leerRangoDeFechas(char fechaInicio[11], char fechaFin[11]);
+
+bool fechaCompararMayor(char fecha_A[10], char fecha_B[10]);
+bool fechaCompMayorIgual(char fecha_A[11], char fecha_B[11]);
+bool fechaCompMenorIgual(char fecha_A[11], char fecha_B[11]);
+bool fechaEstaEnRango(char fecha[11], char fecha_ini[11], char fecha_fin[11]);
+
+void mostrarNombreMes(int mes);
+
+void mostrarValorDelID(int id);
+
+void mostrarMenuPrincipal();
+void ejecutarOpcionPrincipal(int opcion);
+void mostrarMenuArchivo(char archivo[100]);
+
+
+
+
+#define dirArchProductos "Productos.dat"
+struct regProd
+{
+	int id_producto;
+	char nombre[30];
+	int stock;
+	float precio;
+};
+void mostrarMenuProductos();
+void ejecutarOpcionProductos(int opcion);
+void leerDemasDatosProducto(regProd &registroNuevo);
+void leerDatosProducto(regProd &registroNuevo);
+void mostrarDatosProducto(regProd registro);
+void adicionarProducto();
+void modificarProducto();
+void borrarProducto();
+void borrarProductoDeArchivosRelcionados(int idProducto);
+void buscarProductoID();
+void buscarProductoNombre();
+void buscarMostrarProductoID(int idBuscado);
+void listarProductos();
+bool existeIDProducto(int idBuscado);
+bool hayCantidadSuficienteStock(int idBuscado, int Cantidad);
+bool disminuirStock(int idBuscado, int Cantidad);
+bool obtenerDatosProducto(int idBuscado, regProd &registro);
+
+
+
+#define dirArchVendedores "Vendedores.dat"
+struct regVend
+{
+	int id_vendedor;
+	char nombre[30];
+	char telefono[12];
+	char email[80];
+};
+void mostrarMenuVendedores();
+void ejecutarOpcionVendedores(int opcion);
+void leerDemasDatosVendedor(regVend &registroNuevo);
+void leerDatosVendedor(regVend &registroNuevo);
+void mostrarDatosVendedor(regVend registro);
+void adicionarVendedor();
+void modificarVendedor();
+void borrarVendedor();
+void borrarVendedorDeArchivosRelcionados(int idVendedor);
+void buscarVendedorID();
+void buscarMostrarVendedorID(int idBuscado);
+void buscarVendedorNombre();
+void listarVendedores();
+bool existeIDVendedor(int idBuscado);
+bool obtenerDatosVendedor(int id_vendedor, regVend &registro);
+
+
+
+#define dirArchClientes "Clientes.dat"
+struct regClie
+{
+	int id_cliente;
+	char nombre[30];
+	char nit[15];
+};
+void mostrarMenuClientes();
+void ejecutarOpcionClientes(int opcion);
+void leereDemasDatosCliente(regClie &registroNuevo);
+void leerDatosCliente(regClie &registroNuevo);
+void mostrarDatosCliente(regClie registro);
+void adicionarCliente();
+void modificarCliente();
+void borrarCliente();
+void borrarClienteDeArchivosRelcionados(int idCliente);
+void buscarClienteID();
+void buscarMostrarClienteID(int idBuscado);
+void buscarClienteNombre();
+void listarClientes();
+bool obtenerDatosCliente(int idBuscado, regClie &registro);
+bool existeIDCliente(int idBuscado);
+
+
+
+#define dirArchProveedores "Proveedores.dat"
+struct regProveedor
+{
+	int id_proveedor;
+	char nombre[30];
+	char telefono[12];
+	char email[80];
+};
+void mostrarMenuProveedores();
+void ejecutarOpcionProveedores(int opcion);
+void leerDemasDatosProveedor(regProveedor &registroNuevo);
+void leerDatosProveedor(regProveedor &registroNuevo);
+void mostrarDatosProveedor(regProveedor registro);
+void adicionarProveedor();
+void modificarProveedor();
+void borrarProveedor();
+void borrarProveedorDeArchivosRelcionados(int idVendedor);
+void buscarProveedorID();
+void buscarMostrarProveedorID(int idBuscado);
+void buscarProveedorNombre();
+void listarProveedores();
+bool existeIDProveedor(int idBuscado);
+bool obtenerDatosProveedor(int id_vendedor, regProveedor &registro);
+
+
+
+#define dirArchCompras "Compras.dat"
+struct regCompra
+{
+	int id_compra;
+	int id_proveedor;
+	int id_producto;
+	int cantidad;
+	float costo_unitario;
+	char fecha[10];
+};
+void mostrarMenuCompras();
+void ejecutarOpcionCompras(int opcion);
+void leerDemasDatosCompra(regCompra &registroNuevo);
+void leerDatosCompra(regCompra &registroNuevo);
+void mostrarDatosCompra(regCompra registro);
+void adicionarCompra();
+void modificarCompra();
+void borrarCompra();
+void borrarProveedorDeCompra(int idProveedorBuscado);
+void borrarProductoDeCompra(int idProductoBuscado);
+void modificarCompraEnEstaPosicion(int pos, regCompra registro);
+void buscarCompraID();
+void buscarMostrarCompraID(int idBuscado);
+void listarCompras();
+bool obtenerDatosCompra(int idBuscado, regCompra &registro);
+bool existeIDCompra(int idBuscado);
+
+
+
+#define dirArchVentas "Ventas.dat"
+struct regVenta
+{
+	int id_venta;
+	int id_vendedor;
+	int id_cliente;		
+	int id_producto;
+	char fecha[11];
+	int cantidad;
+	float precio_unitario;
+};
+void mostrarMenuVentas();
+void ejecutarOpcionVentas(int opcion);
+void leerDemasDatosVenta(regVenta &registroNuevo);
+void leerDatosVenta(regVenta &registroNuevo);
+void mostrarDatosVenta(regVenta registroNuevo);
+void adicionarVenta();
+void modificarVenta();
+void borrarVenta();
+void borrarVendedorDeVenta(int idVendedor);
+void borrarClienteDeVenta(int idCliente);
+void borrarProductoDeVenta(int idProducto);
+void modificarVentaEnEstaPosicion(int pos, regVenta registro);
+void buscarVentaID();
+void listarVentas();
+void listarProductosVenta(int idBuscado);
+bool obtenerDatosVenta(int idBuscado, regVenta &registro);
+bool existeIDVenta(int idBuscado);
+
+
+
+void mostrarMenuReportes();
+void ejecutarOpcionReportes(int opcion);
+
+void Ventas_Por_Vendedor_en_Periodo_de_Fechas();
+void listarVentasPorIDVendedorEnFechas(int id_vendedor, char fechaInicio[11], char fechaFin[11]);
+int cantidadVentasDelVendedorEnFechas(int id_vendedor, char fechaInicio[11], char fechaFin[11]);
+
+void Mostrar_Cliente_Con_Mas_Compras_en_Periodo_de_Fechas();
+int obtenerCantidadDeComprasDeClienteEnFechas(int idClienteBuscado, char fechaInicio[11], char fechaFin[11]);
+int obtenerMontoDeComprasDeClienteEnFechas(int idClienteBuscado, char fechaInicio[11], char fechaFin[11]);
+//void Mostrar_Reporte_de_Defensa();
+//void listarVentasMesPorCliente(int mes, int anhoReporte, float &total);
+//float obtenerTotalVentasDeProductoEnEsteMes(int idProducto, int mes, int anho);
+//float obtenerTotalVentasAlClienteEnEsteMes(int idCliente, int mesBuscado, int anhoBuscado);
+//void listarVentasPorCliente(char fechaIni[11], char fechaFin[11], float &total);
+//float obtenerTotalVentasAlCliente(int idCliente, char fechaIni[11], char fechaFin[11]);
+
+//*****************************************************************************
+//------------------------------ MAIN -----------------------------------------
+//*****************************************************************************
+int main()
+{
+	int opcion = 0;
+
+	do
+	{
+		mostrarMenuPrincipal();
+
+		cout << endl;
+
+		opcion = leerNumeroEntero("Seleccionar Opcion");
+
+		ejecutarOpcionPrincipal(opcion);
+
+	}while(opcion != 0);
+	return 0;
+}
+
+
+
+//*****************************************************************************
+//---------------------------- AUXILIARES -------------------------------------
+//*****************************************************************************
+void leerCadena(char cadena[], char nombreCadena[])
+{
+	cout << "\n " << nombreCadena << ": ";
+	do
+	{
+		gets(cadena);
+
+	}while(strlen(cadena) == 0);
+}
+
+int leerNumeroEntero(char nombreNum[51])
+{
+	char numero[11];
+	bool esNumero;
+	do
+	{
+		leerCadena(numero, nombreNum);
+
+		esNumero = esNumeroEntero(numero);
+
+		if(esNumero == false)
+		{
+			cout << "\n Dato incorrecto.\n Debe ingresar un  numero...\n";
+		}
+
+	}while(esNumero == false);
+	
+	return obtenerNumeroEntero(numero);
+}
+bool esNumeroEntero(char numero[11])
+{
+	bool esNumero = true;
+
+	for(int i =0; (i < strlen(numero)) && (esNumero); i++)
+	{
+		if( (numero[i] > '9') || (numero[i] < '0') )
+		{
+			esNumero = false;
+		}
+	}
+
+	return esNumero;
+}
+int obtenerNumeroEntero(char numero[11])
+{
+	return atoi(numero);
+}
+
+float leerNumeroReal(char nombreNum[51])
+{
+	char numero[11];
+	bool esNumero;
+	do
+	{
+		leerCadena(numero, nombreNum);
+
+		esNumero = esNumeroReal(numero);
+
+		if(esNumero == false)
+		{
+			cout << "\n Dato incorrecto.\n Debe ingresar un  numero...\n";
+		}
+
+	}while(esNumero == false);
+	
+	return obtenerNumeroReal(numero);
+}
+bool esNumeroReal(char numero[11])
+{
+	bool esNumero = true;
+
+	for(int i = 0; (i < strlen(numero)) && (esNumero); i++)
+	{
+		if( (numero[i] > '9') || (numero[i] < '0') )
+		{
+			if(numero[i] != '.')
+			{
+				esNumero = false;
+			}
+			else if(estaRepetido(numero,'.'))
+			{
+				esNumero = false;
+			}
+		}
+	}
+
+	return esNumero;
+}
+float obtenerNumeroReal(char numero[11])
+{	
+	return float(atof(numero));
+}
+bool estaRepetido(char numero[11], char caracter)
+{
+	bool repetido = false;
+
+	int contador = 0;
+
+	for(int i =0; i < strlen(numero); i++)
+	{
+		if(numero[i] == caracter)
+		{
+			contador++;
+		}
+	}
+
+	if(contador > 1)
+	{
+		repetido = true;
+	}
+
+	return repetido;
+}
+
+void leerFecha(char fecha[11], char nombreFecha[])
+{
+	bool vale = false;
+
+	do
+	{
+		leerCadena(fecha, nombreFecha); 
+
+		vale = fechaValida(fecha);
+
+		if(!vale)
+		{
+			cout << "\n La fecha no es valida. Intente de nuevo con este formato: 01/01/2000\n";
+		}
+
+	}while (!vale);
+}
+bool fechaValida(char fecha[11])
+{
+	bool vale = false;
+
+	if( (fecha[2] == '/') || (fecha[5] == '/') )
+	{
+		int dia, mes, anho;
+		
+		fechaToInt(fecha, dia, mes, anho);
+	
+		if( (mes == 1) || (mes == 3)  || (mes == 5) || (mes == 7) || (mes == 8) || (mes == 10) || (mes == 12))
+		{
+			if( (dia >= 1) && (dia <= 31) )
+			{
+				vale = true;
+			}
+		}
+		if( (mes == 4) || (mes == 6) || (mes == 9) || (mes == 11))
+		{
+			if( (dia >= 1) && (dia <= 30) )
+			{
+				vale = true;
+			}
+		}
+		else if(mes == 2)
+		{
+			if(anho%4 == 0)
+			{
+				if( (dia >= 1) && (dia <= 29) )
+				{
+					vale = true;
+				}
+			}
+			else
+			{
+				if( (dia >= 1) && (dia <= 28) )
+				{
+					vale = true;
+				}
+			}
+		}
+	}
+	return vale;
+}
+void fechaToInt(char fecha[11], int &dia, int &mes, int &anho)
+{
+	char charDia[2];
+	charDia[0] = fecha[0];
+	charDia[1] = fecha[1];
+
+	char charMes[2];
+	charMes[0] = fecha[3];
+	charMes[1] = fecha[4];
+
+	char charAnho[4];
+	charAnho[0] = fecha[6];
+	charAnho[1] = fecha[7];
+	charAnho[2] = fecha[8];
+	charAnho[3] = fecha[9];
+
+	dia = atoi(charDia);
+	mes = atoi(charMes);
+	anho = atoi(charAnho);
+}
+
+void leerRangoDeFechas(char fechaInicio[11], char fechaFin[11])
+{
+	bool inicioMayoFin;
+	do
+	{
+		leerFecha(fechaInicio, "Fecha Inicio");
+		leerFecha(fechaFin, "Fecha Final");
+
+		inicioMayoFin = fechaCompararMayor(fechaInicio, fechaFin);
+
+		if(inicioMayoFin)
+		{
+			cout << "\n La fecha Inicial debe ser anterior o igual a la fecha Final.\n Intente de nuevo...\n";
+		}
+
+	}while(inicioMayoFin);
+}
+
+bool fechaCompararMayor(char fecha_A[10], char fecha_B[10])
+{
+	bool valor = false;
+
+	int dia_A, mes_A, anho_A;
+	int dia_B, mes_B, anho_B;
+
+	fechaToInt(fecha_A, dia_A, mes_A, anho_A);
+	fechaToInt(fecha_B, dia_B, mes_B, anho_B);
+
+	if(anho_A > anho_B)
+	{
+		valor = true;
+	}
+	else if(anho_A == anho_B)
+	{
+		if(mes_A > mes_B)
+		{
+			valor = true;
+		}
+		else if(mes_A == mes_B)
+		{
+			if(dia_A > dia_B)
+			{
+				valor = true;
+			}
+		}
+	}
+
+	return valor;
+}
+bool fechaCompMayorIgual(char fecha_A[11], char fecha_B[11])
+{
+	bool valor = false;
+
+	int dia_A, mes_A, anho_A;
+	int dia_B, mes_B, anho_B;
+
+	fechaToInt(fecha_A, dia_A, mes_A, anho_A);
+	fechaToInt(fecha_B, dia_B, mes_B, anho_B);
+
+	if(anho_A > anho_B)
+	{
+		valor = true;
+	}
+	else if(anho_A == anho_B)
+	{
+		if(mes_A > mes_B)
+		{
+			valor = true;
+		}
+		else if(mes_A == mes_B)
+		{
+			if(dia_A >= dia_B)
+			{
+				valor = true;
+			}
+		}
+	}
+
+	return valor;
+}
+bool fechaCompMenorIgual(char fecha_A[11], char fecha_B[11])
+{
+	bool valor = false;
+
+	int dia_A, mes_A, anho_A;
+	int dia_B, mes_B, anho_B;
+
+	fechaToInt(fecha_A, dia_A, mes_A, anho_A);
+	fechaToInt(fecha_B, dia_B, mes_B, anho_B);
+
+	if(anho_A < anho_B)
+	{
+		valor = true;
+	}
+	else if(anho_A == anho_B)
+	{
+		if(mes_A < mes_B)
+		{
+			valor = true;
+		}
+		else if(mes_A == mes_B)
+		{
+			if(dia_A <= dia_B)
+			{
+				valor = true;
+			}
+		}
+	}
+
+	return valor;
+}
+bool fechaEstaEnRango(char fecha[11], char fecha_ini[11], char fecha_fin[11])
+{
+	bool valor = false;
+
+	if(fechaCompMayorIgual(fecha, fecha_ini) && fechaCompMenorIgual(fecha, fecha_fin))
+	{
+		valor = true;
+	}
+	else if(fechaCompMayorIgual(fecha, fecha_fin) && fechaCompMenorIgual(fecha, fecha_ini))
+	{
+		valor = true;
+	}
+
+	return valor;
+}
+
+void mostrarNombreMes(int mes)
+{
+	switch (mes)
+	{
+		case 1:
+			cout << "Enero";
+			break;
+
+		case 2:
+			cout << "Febrero";
+			break;
+
+		case 3:
+			cout << "Marzo";
+			break;
+
+		case 4:
+			cout << "Abril";
+			break;
+
+		case 5:
+			cout << "Mayo";
+			break;
+
+		case 6:
+			cout << "Junio";
+			break;
+
+		case 7:
+			cout << "Julio";
+			break;
+
+		case 8:
+			cout << "Agosto";
+			break;
+
+		case 9:
+			cout << "Septiembre";
+			break;
+
+		case 10:
+			cout << "Octubre";
+			break;
+
+		case 11:
+			cout << "Noviembre";
+			break;
+
+		case 12:
+			cout << "Diciembre";
+			break;
+	};
+}
+
+char* obtenerNombreMes(int mes)
+{
+	switch (mes)
+	{
+		case 1:
+			return "Enero";
+
+		case 2:
+			return "Febrero";
+
+		case 3:
+			return "Marzo";
+
+		case 4:
+			return "Abril";
+			
+		case 5:
+			return "Mayo";
+			
+		case 6:
+			return "Junio";
+			
+		case 7:
+			return "Julio";
+			
+		case 8:
+			return "Agosto";
+			
+		case 9:
+			return "Septiembre";
+			
+		case 10:
+			return "Octubre";
+			
+		case 11:
+			return "Noviembre";
+			
+		case 12:
+			return "Diciembre";
+	};
+}
+
+void mostrarValorDelID(int id)
+{
+	if(id != -1)
+	{
+		cout << id;
+	}
+	else
+	{
+		cout << "ELIMINADO";
+	}
+}
+
+
+
+//*****************************************************************************
+//--------------------------------- MENU --------------------------------------
+//*****************************************************************************
+void mostrarMenuPrincipal()
+{
+	system("CLS");
+
+	cout << "\n\n\t** M E N U **\n";
+	
+	cout << "\n 1.- Productos";
+	cout << "\n 2.- Vendedores";
+	cout << "\n 3.- Clientes";
+	cout << "\n 4.- Proveedores";
+	cout << "\n 5.- Compras";
+	cout << "\n 6.- Ventas";
+	cout << "\n 7.- Reportes";
+
+	cout << "\n\n 0.- Salir";
+}
+void ejecutarOpcionPrincipal(int opcion)
+{
+	switch(opcion)
+	{
+		case 1:
+
+			mostrarMenuProductos();
+			break;
+
+		case 2:
+
+			mostrarMenuVendedores();
+			break;
+
+		case 3:
+
+			mostrarMenuClientes();
+			break;
+
+		case 4:
+
+			mostrarMenuProveedores();
+			break;
+
+		case 5:
+
+			mostrarMenuCompras();
+			break;
+
+		case 6:
+
+			mostrarMenuVentas();
+			break;
+
+		case 7:
+
+			mostrarMenuReportes();
+			break;
+
+		default: break;
+	}
+}
+void mostrarMenuArchivo(char archivo[100] )
+{
+	system("CLS");
+
+	cout << "\n\n\t** " << archivo << " **\n";
+	
+	cout << "\n 1.- Adicionar Registro";
+	cout << "\n 2.- Modificar Registro";
+	cout << "\n 3.- Borrar Registro";
+	cout << "\n 4.- Listar Registros";
+	cout << "\n 5.- Buscar Registro por ID";
+	cout << "\n 6.- Buscar Registro por Nombre";
+
+	cout << "\n\n 0.- Atras";
+}
+
+
+
+//*****************************************************************************
+//---------------------------- PRODUCTOS --------------------------------------
+//*****************************************************************************
+void mostrarMenuProductos()
+{	
+	int opcion = 0;
+
+	do
+	{
+		mostrarMenuArchivo("PRODUCTOS");
+
+		cout << endl;
+
+		opcion = leerNumeroEntero("Seleccionar Opcion");
+
+		ejecutarOpcionProductos(opcion);
+
+	}while(opcion != 0);
+}
+void ejecutarOpcionProductos(int opcion)
+{
+	switch(opcion)
+	{
+		case 1:
+
+			adicionarProducto();
+			break;
+
+		case 2:
+
+			modificarProducto();
+			break;
+
+		case 3:
+
+			borrarProducto();
+			break;
+
+		case 4:
+
+			listarProductos();
+			break;
+
+		case 5:
+
+			buscarProductoID();
+			break;
+
+		case 6:
+
+			buscarProductoNombre();
+			break;
+
+		default: break;
+	}
+}
+void leerDemasDatosProducto(regProd &registroNuevo)
+{
+	leerCadena(registroNuevo.nombre, "Nombre");		
+	registroNuevo.precio = leerNumeroReal("Precio");
+}
+void leerDatosProducto(regProd &registroNuevo)
+{
+	bool existe;
+	do
+	{
+		registroNuevo.id_producto = leerNumeroEntero("ID Producto");
+
+		existe = existeIDProducto(registroNuevo.id_producto);
+
+		if(existe)
+		{
+			cout << "\n El id ingresado ya existe.\n Intente de nuevo...\n";
+		}
+
+	}while(existe);
+	
+	leerDemasDatosProducto(registroNuevo);
+}
+void mostrarDatosProducto(regProd registro)
+{
+	cout << endl << "\n ID Producto: " << registro.id_producto;
+	cout << "\n Nombre:      " << registro.nombre;
+	cout << "\n Precio:      " << registro.precio;
+	cout << "\n Stock:       " << registro.stock << endl;
+}
+void adicionarProducto()
+{
+	FILE *archivo;
+	regProd registroNuevo;
+	
+	leerDatosProducto(registroNuevo);
+	registroNuevo.stock = 0;
+
+	archivo = fopen(dirArchProductos,"ab");
+
+	if(archivo == NULL)
+	{
+		cout << "\n No se pudo abrir el archivo...";
+	}
+	else
+	{
+		fwrite(&registroNuevo,sizeof(regProd),1,archivo);
+
+		fclose(archivo);
+
+		cout << "\n Registro Agregado...";
+	}
+
+	getch();
+}
+void modificarProducto()
+{
+	int idBuscado = leerNumeroEntero("Ingrese el ID del Registro a modificar");
+	
+	if(existeIDProducto(idBuscado))
+	{
+		FILE *archivo;
+		regProd registroNuevo, registro;
+	
+		registroNuevo.id_producto = idBuscado;
+
+		cout << "\n Ingrese los datos del Nuevo Registro\n\n";
+		leerDemasDatosProducto(registroNuevo);
+		
+		archivo = fopen(dirArchProductos,"rb+");
+
+		if(archivo == NULL)
+		{
+			cout << "\n No se pudo abrir el archivo...";
+		}
+		else
+		{
+			bool encontrado = false;
+			int PosRel = 0;
+
+			fread(&registro,sizeof(regProd),1,archivo);
+			while (!feof(archivo) && !encontrado)
+			{
+				if(registro.id_producto == idBuscado)
+				{
+					registroNuevo.stock = registro.stock;
+
+					fseek(archivo, sizeof(regProd)*PosRel, SEEK_SET);
+					fwrite(&registroNuevo,sizeof(regProd),1,archivo);
+					encontrado = true;
+				}
+				else
+				{
+					fread(&registro,sizeof(regProd),1,archivo);
+					PosRel++;
+				}			
+			}
+
+			fclose(archivo);
+
+			cout << "\n Registro Modificado...";
+		}
+	}
+	else
+	{
+		cout << "\n El ID del registro buscado no existe.";
+	}
+	getch();
+}
+void borrarProducto()
+{
+	int idBuscado = leerNumeroEntero("Ingrese el ID del Producto a Borrar");
+
+	if(existeIDProducto(idBuscado))
+	{
+		FILE *archivo, *archivoAuxiliar;
+		regProd registro;
+
+		archivo = fopen(dirArchProductos, "rb");
+		archivoAuxiliar = fopen(dirArchAuxiliar, "wb");
+	
+		if( (archivo != NULL) && (archivoAuxiliar != NULL) )
+		{
+			fread(&registro,sizeof(regProd),1,archivo);
+	
+			while(!feof(archivo))
+			{
+				if(registro.id_producto != idBuscado)
+				{
+					fwrite(&registro,sizeof(regProd),1,archivoAuxiliar);
+				}
+
+				fread(&registro,sizeof(regProd),1,archivo);
+			}
+
+			fclose( archivo );
+			fclose( archivoAuxiliar );
+
+			remove(dirArchProductos);
+			rename(dirArchAuxiliar, dirArchProductos);
+
+			borrarProductoDeArchivosRelcionados(idBuscado);
+
+			cout << "\n Registro borrado...";
+		}
+		else
+		{
+			cout << "\n No se pudo abrir el archivo...";
+		}
+	}
+	else
+	{
+		cout << "\n El ID ingresado no existe.\n Intente de nuevo...\n";
+	}
+
+	getch();
+}
+void borrarProductoDeArchivosRelcionados(int idProducto)
+{
+	borrarProductoDeCompra(idProducto);
+	borrarProductoDeVenta(idProducto);
+}
+void buscarProductoID()
+{
+	int idBuscado = leerNumeroEntero("Ingrese el ID del Producto a buscar");
+	
+	FILE *archivo;
+	regProd registro;
+
+	archivo = fopen(dirArchProductos,"rb");
+
+	if(archivo == NULL)
+	{
+		cout << "\n No se pudo abrir el archivo...";
+	}
+	else
+	{
+		bool encontrado = false;
+
+		fread(&registro,sizeof(regProd),1,archivo);
+		while (!feof(archivo) && !encontrado)
+		{
+			if(registro.id_producto == idBuscado)
+			{				
+				encontrado = true;
+			}
+			else
+			{
+				fread(&registro,sizeof(regProd),1,archivo);
+			}			
+		}
+
+		if(!encontrado)
+		{
+			cout << "\n El ID del registro buscado no existe.";
+		}
+		else
+		{
+			mostrarDatosProducto(registro);
+		}
+		fclose(archivo);
+	}
+
+	getch();
+}
+void buscarProductoNombre()
+{
+	char nombreBuscado[30];
+	leerCadena(nombreBuscado,"Ingrese el Nombre del Producto a buscar");
+
+	FILE *archivo;
+	regProd registro;
+
+	archivo = fopen(dirArchProductos,"rb");
+
+	if(archivo == NULL)
+	{
+		cout << "\n No se pudo abrir el archivo...";
+	}
+	else
+	{
+		bool encontrado = false;
+
+		fread(&registro,sizeof(regProd),1,archivo);
+		while (!feof(archivo) && !encontrado)
+		{
+			if(strcmp(registro.nombre, nombreBuscado) == 0)
+			{				
+				encontrado = true;
+			}
+			else
+			{
+				fread(&registro,sizeof(regProd),1,archivo);
+			}			
+		}
+
+		if(!encontrado)
+		{
+			cout << "\n El Nombre del registro buscado no existe.";
+		}
+		else
+		{
+			mostrarDatosProducto(registro);
+		}
+		fclose(archivo);
+	}
+
+	getch();
+}
+void buscarMostrarProductoID(int idBuscado)
+{
+	FILE *archivo;
+	regProd registro;
+
+	archivo = fopen(dirArchProductos,"rb");
+
+	if(archivo != NULL)
+	{
+		bool encontrado = false;
+
+		fread(&registro,sizeof(regProd),1,archivo);
+		while (!feof(archivo) && !encontrado)
+		{
+			if(registro.id_producto == idBuscado)
+			{				
+				encontrado = true;
+			}
+			else
+			{
+				fread(&registro,sizeof(regProd),1,archivo);
+			}			
+		}
+
+		if(!encontrado)
+		{
+			cout << "\n El ID del producto buscado no existe.";
+			getch();
+		}
+		else
+		{
+			mostrarDatosProducto(registro);
+		}
+		fclose(archivo);
+	}
+}
+void listarProductos()
+{
+	FILE *archivo;
+	regProd registro;
+
+	archivo = fopen(dirArchProductos,"rb");
+
+	if(archivo == NULL)
+	{
+		cout << "\n No se pudo abrir el archivo...";
+	}
+	else
+	{
+		cout << "\n\t***LISTA DE PRODUCTOS***\n";
+		cout << "\nID PRODUCTO\tNOMBRE\t\tPRECIO\tSTOCK\n";
+
+		fread(&registro,sizeof(regProd),1,archivo);
+		while (!feof(archivo))
+		{
+			cout << endl;
+			cout << registro.id_producto << "\t";
+			cout << "\t" << registro.nombre;
+			cout << "\t" << registro.precio;
+			cout << "\t" << registro.stock;
+
+			fread(&registro,sizeof(regProd),1,archivo);		
+		}
+
+		cout << endl;
+		
+		fclose(archivo);
+	}
+
+	getch();
+}
+bool existeIDProducto(int idBuscado)
+{
+	bool existe = false;
+
+	FILE *archivo;
+	regProd registro;
+
+	archivo = fopen(dirArchProductos,"rb");
+
+	if(archivo != NULL)
+	{
+		fread(&registro,sizeof(regProd),1,archivo);
+		while (!feof(archivo) && !existe)
+		{
+			if(registro.id_producto == idBuscado)
+			{				
+				existe = true;
+			}
+			else
+			{
+				fread(&registro,sizeof(regProd),1,archivo);
+			}			
+		}
+
+		fclose(archivo);
+	}
+
+	return existe;
+}
+bool hayCantidadSuficienteStock(int idBuscado, int Cantidad)
+{
+	bool suficiente = false;
+
+	FILE *archivo;
+	regProd registro;
+
+	archivo = fopen(dirArchProductos,"rb");
+
+	if(archivo != NULL)
+	{
+		bool encontrado = false;
+
+		fread(&registro,sizeof(regProd),1,archivo);
+		while (!feof(archivo) && !encontrado)
+		{
+			if(registro.id_producto == idBuscado)
+			{
+				encontrado = true;
+
+				if(registro.stock >= Cantidad)
+				{
+					suficiente = true;
+				}			
+			}
+			else
+			{
+				fread(&registro,sizeof(regProd),1,archivo);
+			}			
+		}
+
+		if(!encontrado)
+		{
+			cout << "\n El ID del registro buscado no existe.";
+			getch();
+		}
+		fclose(archivo);
+	}
+
+	return suficiente;
+}
+bool disminuirStock(int idBuscado, int Cantidad)
+{
+	bool disminuyo = false;
+
+	FILE *archivo;
+	regProd registro;
+
+	archivo = fopen(dirArchProductos,"rb+");
+
+	if(archivo == NULL)
+	{
+		cout << "\n No se pudo abrir el archivo...";
+		getch();
+	}
+	else
+	{
+		bool encontrado = false;
+		int PosRel = 0;
+
+		fread(&registro,sizeof(regProd),1,archivo);
+		while (!feof(archivo) && !encontrado)
+		{
+			if(registro.id_producto == idBuscado)
+			{
+				encontrado = true;
+
+				if(registro.stock >= Cantidad)
+				{
+					registro.stock = registro.stock - Cantidad;
+
+					fseek(archivo, sizeof(regProd)*PosRel, SEEK_SET);
+					fwrite(&registro,sizeof(regProd),1,archivo);
+
+					disminuyo = true;
+				}
+				else
+				{
+					cout << "\n El Stock no tiene la cantidad solicitada.";
+					getch();
+				}				
+			}
+			else
+			{
+				fread(&registro,sizeof(regProd),1,archivo);
+				PosRel++;
+			}			
+		}
+		fclose(archivo);
+	}
+
+	return disminuyo;
+}
+bool aumentarStock(int idBuscado, int Cantidad)
+{
+	bool aumento = false;
+
+	FILE *archivo;
+	regProd registro;
+
+	archivo = fopen(dirArchProductos,"rb+");
+
+	if(archivo == NULL)
+	{
+		cout << "\n No se pudo abrir el archivo...";
+		getch();
+	}
+	else
+	{
+		int PosRel = 0;
+
+		fread(&registro,sizeof(regProd),1,archivo);
+		while (!feof(archivo) && !aumento)
+		{
+			if(registro.id_producto == idBuscado)
+			{
+				registro.stock = registro.stock + Cantidad;
+
+				fseek(archivo, sizeof(regProd)*PosRel, SEEK_SET);
+				fwrite(&registro,sizeof(regProd),1,archivo);
+
+				aumento = true;				
+			}
+			else
+			{
+				fread(&registro,sizeof(regProd),1,archivo);
+				PosRel++;
+			}			
+		}
+
+		if(!aumento)
+		{
+			cout << "\n El ID del registro buscado no existe.";
+			getch();
+		}
+
+		fclose(archivo);
+	}
+
+	return aumento;
+}
+void modificarStock(int idBuscado, int cantidadVieja, int cantidadNueva)
+{	
+	FILE *archivo;
+	regProd registro;
+
+	archivo = fopen(dirArchProductos,"rb+");
+
+	if(archivo == NULL)
+	{
+		cout << "\n No se pudo abrir el archivo...";
+	}
+	else
+	{
+		bool encontrado = false;
+		int PosRel = 0;
+
+		fread(&registro,sizeof(regProd),1,archivo);
+		while (!feof(archivo) && !encontrado)
+		{
+			if(registro.id_producto == idBuscado)
+			{
+				registro.stock = registro.stock - cantidadVieja + cantidadNueva;
+
+				fseek(archivo, sizeof(regProd)*PosRel, SEEK_SET);
+				fwrite(&registro,sizeof(regProd),1,archivo);
+				encontrado = true;
+			}
+			else
+			{
+				fread(&registro,sizeof(regProd),1,archivo);
+				PosRel++;
+			}			
+		}
+
+		if(!encontrado)
+		{
+			cout << "\n El ID del registro buscado no existe.";
+		}
+		fclose(archivo);
+	}
+
+	getch();
+}
+bool obtenerDatosProducto(int idBuscado, regProd &registro)
+{
+	bool encontrado = false;
+
+	FILE *archivo;
+
+	archivo = fopen(dirArchProductos,"rb");
+
+	if(archivo != NULL)
+	{
+		fread(&registro,sizeof(regProd),1,archivo);
+		while (!feof(archivo) && !encontrado)
+		{
+			if(registro.id_producto == idBuscado)
+			{				
+				encontrado = true;
+			}
+			else
+			{
+				fread(&registro,sizeof(regProd),1,archivo);
+			}			
+		}
+
+		fclose(archivo);
+	}
+
+	return encontrado;
+}
+
+
+
+//*****************************************************************************
+//---------------------------- VENDEDORES -------------------------------------
+//*****************************************************************************
+void mostrarMenuVendedores()
+{
+	int opcion = 0;
+
+	do
+	{
+		mostrarMenuArchivo("VENDEDORES");
+
+		cout << endl;
+
+		opcion = leerNumeroEntero("Seleccionar Opcion");
+
+		ejecutarOpcionVendedores(opcion);
+
+	}while(opcion != 0);
+}
+void ejecutarOpcionVendedores(int opcion)
+{
+	switch(opcion)
+	{
+		case 1:
+
+			adicionarVendedor();
+			break;
+
+		case 2:
+
+			modificarVendedor();
+			break;
+
+		case 3:
+
+			borrarVendedor();
+			break;
+
+		case 4:
+
+			listarVendedores();
+			break;
+
+		case 5:
+
+			buscarVendedorID();
+			break;
+
+		case 6:
+
+			buscarVendedorNombre();
+			break;
+
+		default: break;
+	}
+}
+void leerDemasDatosVendedor(regVend &registroNuevo)
+{
+	leerCadena(registroNuevo.nombre, "Nombre");
+	leerCadena(registroNuevo.telefono, "Telefono");
+	leerCadena(registroNuevo.email, "e-mail");
+}
+void leerDatosVendedor(regVend &registroNuevo)
+{
+	bool existe;
+	do
+	{
+		registroNuevo.id_vendedor = leerNumeroEntero("ID Vendedor");
+
+		existe = existeIDVendedor(registroNuevo.id_vendedor);
+
+		if(existe)
+		{
+			cout << "\n El id ingresado ya existe.\n Intente de nuevo...\n";
+		}
+
+	}while(existe);
+
+	leerDemasDatosVendedor(registroNuevo);
+}
+void mostrarDatosVendedor(regVend registro)
+{
+	cout << endl << "\n ID Vendedor: " << registro.id_vendedor;
+	cout << "\n Nombre:      " << registro.nombre;
+	cout << "\n Telefono:    " << registro.telefono;
+	cout << "\n e-mail:      " << registro.email << endl;
+}
+void adicionarVendedor()
+{
+	FILE *archivo;
+	regVend registroNuevo;
+	
+	leerDatosVendedor(registroNuevo);
+
+	archivo = fopen(dirArchVendedores,"ab");
+
+	if(archivo == NULL)
+	{
+		cout << "\n No se pudo abrir el archivo...";
+	}
+	else
+	{
+		fwrite(&registroNuevo,sizeof(regVend),1,archivo);
+
+		fclose(archivo);
+
+		cout << "\n Registro Agregado...";
+	}
+
+	getch();
+}
+void modificarVendedor()
+{
+	int idBuscado = leerNumeroEntero("Ingrese el ID del Registro a modificar");
+
+	if(existeIDVendedor(idBuscado))
+	{
+		FILE *archivo;
+		regVend registroNuevo, registro;
+		
+		registroNuevo.id_vendedor = idBuscado;
+
+		cout << "\n Ingrese los datos del Nuevo Registro\n\n";
+		leerDemasDatosVendedor(registroNuevo);
+
+		archivo = fopen(dirArchVendedores,"rb+");
+
+		if(archivo == NULL)
+		{
+			cout << "\n No se pudo abrir el archivo...";
+		}
+		else
+		{
+			bool encontrado = false;
+			int PosRel = 0;
+
+			fread(&registro,sizeof(regVend),1,archivo);
+			while (!feof(archivo) && !encontrado)
+			{
+				if(registro.id_vendedor == idBuscado)
+				{
+					fseek(archivo, sizeof(regVend)*PosRel, SEEK_SET);
+					fwrite(&registroNuevo,sizeof(regVend),1,archivo);
+					encontrado = true;
+				}
+				else
+				{
+					fread(&registro,sizeof(regVend),1,archivo);
+					PosRel++;
+				}			
+			}
+
+			fclose(archivo);
+
+			cout << "\n Registro Modificado...";
+		}
+	}
+	else
+	{
+		cout << "\n El ID del registro buscado no existe.";
+	}
+	getch();
+}
+void borrarVendedor()
+{
+	int idBuscado = leerNumeroEntero("Ingrese el ID del Vendedor a Borrar");
+
+	if(existeIDVendedor(idBuscado))
+	{
+		FILE *archivo, *archivoAuxiliar;
+		regVend registro;
+
+		archivo = fopen(dirArchVendedores, "rb");
+		archivoAuxiliar = fopen(dirArchAuxiliar, "wb");
+	
+		if( (archivo != NULL) && (archivoAuxiliar != NULL) )
+		{
+			fread(&registro,sizeof(regVend),1,archivo);
+
+			while(!feof(archivo))
+			{
+				if(registro.id_vendedor != idBuscado)
+				{
+					fwrite(&registro,sizeof(regVend),1,archivoAuxiliar);
+				}
+
+				fread(&registro,sizeof(regVend),1,archivo);
+			}
+
+			fclose( archivo );
+			fclose( archivoAuxiliar );
+
+			remove(dirArchVendedores);
+			rename(dirArchAuxiliar, dirArchVendedores);
+
+			borrarVendedorDeArchivosRelcionados(idBuscado);
+
+			cout << "\n Registro borrado...";
+		}
+		else
+		{
+			cout << "\n No se pudo abrir el archivo...";
+		}
+	}
+	else
+	{
+		cout << "\n El ID buscado no existe.\n Intente de nuevo...";
+	}
+
+	getch();
+}
+void borrarVendedorDeArchivosRelcionados(int idVendedor)
+{
+	borrarVendedorDeVenta(idVendedor);
+}
+void buscarVendedorID()
+{
+	int idBuscado = leerNumeroEntero("Ingrese el ID del Vendedor a buscar");
+	
+	FILE *archivo;
+	regVend registro;
+
+	archivo = fopen(dirArchVendedores,"rb");
+
+	if(archivo == NULL)
+	{
+		cout << "\n No se pudo abrir el archivo...";
+	}
+	else
+	{
+		bool encontrado = false;
+
+		fread(&registro,sizeof(regVend),1,archivo);
+		while (!feof(archivo) && !encontrado)
+		{
+			if(registro.id_vendedor == idBuscado)
+			{				
+				encontrado = true;
+			}
+			else
+			{
+				fread(&registro,sizeof(regVend),1,archivo);
+			}			
+		}
+
+		if(!encontrado)
+		{
+			cout << "\n El ID del registro buscado no existe.";
+		}
+		else
+		{
+			mostrarDatosVendedor(registro);
+		}
+		fclose(archivo);
+	}
+
+	getch();
+}
+void buscarMostrarVendedorID(int idBuscado)
+{	
+	FILE *archivo;
+	regVend registro;
+
+	archivo = fopen(dirArchVendedores,"rb");
+
+	if(archivo != NULL)
+	{
+		bool encontrado = false;
+
+		fread(&registro,sizeof(regVend),1,archivo);
+		while (!feof(archivo) && !encontrado)
+		{
+			if(registro.id_vendedor == idBuscado)
+			{				
+				encontrado = true;
+			}
+			else
+			{
+				fread(&registro,sizeof(regVend),1,archivo);
+			}			
+		}
+
+		if(!encontrado)
+		{
+			cout << "\n El ID del vendedor buscado no existe.";
+			getch();
+		}
+		else
+		{
+			mostrarDatosVendedor(registro);
+		}
+		fclose(archivo);
+	}
+}
+void buscarVendedorNombre()
+{
+	char nombreBuscado[30];
+	leerCadena(nombreBuscado, "Ingrese el Nombre del Vendedor a buscar");
+
+	FILE *archivo;
+	regVend registro;
+
+	archivo = fopen(dirArchVendedores,"rb");
+
+	if(archivo == NULL)
+	{
+		cout << "\n No se pudo abrir el archivo...";
+	}
+	else
+	{
+		bool encontrado = false;
+
+		fread(&registro,sizeof(regVend),1,archivo);
+		while (!feof(archivo) && !encontrado)
+		{
+			if(strcmp(registro.nombre, nombreBuscado) == 0)
+			{				
+				encontrado = true;
+			}
+			else
+			{
+				fread(&registro,sizeof(regVend),1,archivo);
+			}			
+		}
+
+		if(!encontrado)
+		{
+			cout << "\n El Nombre del registro buscado no existe.";
+		}
+		else
+		{
+			mostrarDatosVendedor(registro);
+		}
+		fclose(archivo);
+	}
+
+	getch();
+}
+void listarVendedores()
+{
+	FILE *archivo;
+	regVend registro;
+
+	archivo = fopen(dirArchVendedores,"rb");
+
+	if(archivo == NULL)
+	{
+		cout << "\n No se pudo abrir el archivo...";
+	}
+	else
+	{
+		cout << "\n\t***LISTA DE VENDEDORES***\n";
+		cout << "\nID_VENDEDOR\tNOMBRE\t\tTELEFONO\tE-MAIL\n";
+
+		fread(&registro,sizeof(regVend),1,archivo);
+		while (!feof(archivo))
+		{
+			cout << endl;
+			cout << registro.id_vendedor << "\t";
+			cout << "\t" << registro.nombre;
+			cout << "\t" << registro.telefono;
+			cout << "\t" << registro.email;
+
+			fread(&registro,sizeof(regVend),1,archivo);		
+		}
+
+		cout << endl;
+		
+		fclose(archivo);
+	}
+
+	getch();
+}
+bool existeIDVendedor(int idBuscado)
+{
+	bool existe = false;
+
+	FILE *archivo;
+	regVend registro;
+
+	archivo = fopen(dirArchVendedores,"rb");
+
+	if(archivo != NULL)
+	{
+		fread(&registro,sizeof(regVend),1,archivo);
+		while (!feof(archivo) && !existe)
+		{
+			if(registro.id_vendedor == idBuscado)
+			{				
+				existe = true;
+			}
+			else
+			{
+				fread(&registro,sizeof(regVend),1,archivo);
+			}			
+		}
+
+		fclose(archivo);
+	}
+
+	return existe;
+}
+bool obtenerDatosVendedor(int id_vendedor, regVend &registro)
+{
+	bool encontrado = false;
+
+	FILE *archivo;
+
+	archivo = fopen(dirArchVendedores,"rb");
+
+	if(archivo == NULL)
+	{
+		cout << "\n No se pudo abrir el archivo...";
+		getch();
+	}
+	else
+	{
+		fread(&registro,sizeof(regVend),1,archivo);
+		while (!feof(archivo) && !encontrado)
+		{
+			if(registro.id_vendedor == id_vendedor)
+			{				
+				encontrado = true;
+			}
+			else
+			{
+				fread(&registro,sizeof(regVend),1,archivo);
+			}			
+		}
+
+		fclose(archivo);
+	}
+
+	return encontrado;
+}
+
+
+
+//*****************************************************************************
+//------------------------------- CLIENTES ------------------------------------
+//*****************************************************************************
+void mostrarMenuClientes()
+{
+	int opcion = 0;
+
+	do
+	{
+		mostrarMenuArchivo("CLIENTES");
+
+		cout << endl;
+
+		opcion = leerNumeroEntero("Seleccionar Opcion");
+
+		ejecutarOpcionClientes(opcion);
+
+	}while(opcion != 0);
+}
+void ejecutarOpcionClientes(int opcion)
+{
+	switch(opcion)
+	{
+		case 1:
+
+			adicionarCliente();
+			break;
+
+		case 2:
+
+			modificarCliente();
+			break;
+
+		case 3:
+
+			borrarCliente();
+			break;
+
+		case 4:
+
+			listarClientes();
+			break;
+
+		case 5:
+
+			buscarClienteID();
+			break;
+
+		case 6:
+
+			buscarClienteNombre();
+			break;
+
+		default: break;
+	}
+}
+void leerDemasDatosCliente(regClie &registroNuevo)
+{
+	leerCadena(registroNuevo.nombre, "Nombre");
+	leerCadena(registroNuevo.nit, "NIT");
+}
+void leerDatosCliente(regClie &registroNuevo)
+{
+	bool existe;
+	do
+	{
+		registroNuevo.id_cliente = leerNumeroEntero("ID Cliente");
+
+		existe = existeIDCliente(registroNuevo.id_cliente);
+
+		if(existe)
+		{
+			cout << "\n El id ingresado ya existe.\n Intente de nuevo...\n";
+		}
+
+	}while(existe);
+
+	leerDemasDatosCliente(registroNuevo);
+}
+void mostrarDatosCliente(regClie registro)
+{
+	cout << endl << "\n ID Cliente: " << registro.id_cliente;
+	cout << "\n Nombre:     " << registro.nombre;
+	cout << "\n NIT:        " << registro.nit << endl;
+}
+void adicionarCliente()
+{
+	FILE *archivo;
+	regClie registroNuevo;
+	
+	leerDatosCliente(registroNuevo);
+
+	archivo = fopen(dirArchClientes,"ab");
+
+	if(archivo == NULL)
+	{
+		cout << "\n No se pudo abrir el archivo...";
+	}
+	else
+	{
+		fwrite(&registroNuevo,sizeof(regClie),1,archivo);
+
+		fclose(archivo);
+
+		cout << "\n Registro Agregado...";
+	}
+
+	getch();
+}
+void modificarCliente()
+{
+	int idBuscado = leerNumeroEntero("Ingrese el ID del Registro a modificar");
+
+	if(existeIDCliente(idBuscado))
+	{
+		FILE *archivo;
+		regClie registroNuevo, registro;
+
+		registroNuevo.id_cliente = idBuscado;
+
+		cout << "\n Ingrese los datos del Nuevo Registro\n\n";
+		leerDemasDatosCliente(registroNuevo);
+
+		archivo = fopen(dirArchClientes,"rb+");
+
+		if(archivo == NULL)
+		{
+			cout << "\n No se pudo abrir el archivo...";
+		}
+		else
+		{
+			bool encontrado = false;
+			int PosRel = 0;
+
+			fread(&registro,sizeof(regClie),1,archivo);
+			while (!feof(archivo) && !encontrado)
+			{
+				if(registro.id_cliente == idBuscado)
+				{
+					fseek(archivo, sizeof(regClie)*PosRel, SEEK_SET);
+					fwrite(&registroNuevo,sizeof(regClie),1,archivo);
+					encontrado = true;
+				}
+				else
+				{
+					fread(&registro,sizeof(regClie),1,archivo);
+					PosRel++;
+				}			
+			}
+
+			fclose(archivo);
+
+			cout << "\n Registro Modificado...";
+		}
+	}
+	else
+	{
+		cout << "\n El ID del registro buscado no existe.";
+	}
+	getch();
+}
+void borrarCliente()
+{
+	int idBuscado = leerNumeroEntero("Ingrese el ID del Cliente a Borrar");
+
+	if(existeIDCliente(idBuscado))
+	{
+		FILE *archivo, *archivoAuxiliar;
+		regClie registro;
+
+		archivo = fopen(dirArchClientes, "rb");
+		archivoAuxiliar = fopen(dirArchAuxiliar, "wb");
+		
+		if( (archivo != NULL) && (archivoAuxiliar != NULL) )
+		{
+			fread(&registro,sizeof(regClie),1,archivo);
+
+			while(!feof(archivo))
+			{
+				if(registro.id_cliente != idBuscado)
+				{
+					fwrite(&registro,sizeof(regClie),1,archivoAuxiliar);
+				}
+
+				fread(&registro,sizeof(regClie),1,archivo);
+			}
+
+			fclose( archivo );
+			fclose( archivoAuxiliar );
+
+			remove(dirArchClientes);
+			rename(dirArchAuxiliar, dirArchClientes);
+
+			borrarClienteDeArchivosRelcionados(idBuscado);
+
+			cout << "\n Registro borrado...";
+		}
+		else
+		{
+			cout << "\n No se pudo abrir el archivo...";
+		}
+	}
+	else
+	{
+		cout << "\n El ID ingresado no existe.\n Intente de nuevo...\n";
+	}
+	getch();
+}
+void borrarClienteDeArchivosRelcionados(int idCliente)
+{
+	borrarClienteDeVenta(idCliente);
+}
+void buscarClienteID()
+{
+	int idBuscado = leerNumeroEntero("Ingrese el ID del Cliente a buscar");
+	
+	FILE *archivo;
+	regClie registro;
+
+	archivo = fopen(dirArchClientes,"rb");
+
+	if(archivo == NULL)
+	{
+		cout << "\n No se pudo abrir el archivo...";
+	}
+	else
+	{
+		bool encontrado = false;
+
+		fread(&registro,sizeof(regClie),1,archivo);
+		while (!feof(archivo) && !encontrado)
+		{
+			if(registro.id_cliente == idBuscado)
+			{				
+				encontrado = true;
+			}
+			else
+			{
+				fread(&registro,sizeof(regClie),1,archivo);
+			}			
+		}
+
+		if(!encontrado)
+		{
+			cout << "\n El ID del registro buscado no existe.";
+		}
+		else
+		{
+			mostrarDatosCliente(registro);
+		}
+		fclose(archivo);
+	}
+
+	getch();
+}
+void buscarMostrarClienteID(int idBuscado)
+{
+	FILE *archivo;
+	regClie registro;
+
+	archivo = fopen(dirArchClientes,"rb");
+
+	if(archivo != NULL)
+	{
+		bool encontrado = false;
+
+		fread(&registro,sizeof(regClie),1,archivo);
+		while (!feof(archivo) && !encontrado)
+		{
+			if(registro.id_cliente == idBuscado)
+			{				
+				encontrado = true;
+			}
+			else
+			{
+				fread(&registro,sizeof(regClie),1,archivo);
+			}			
+		}
+
+		if(!encontrado)
+		{
+			cout << "\n El ID del cliente buscado no existe.";
+			getch();
+		}
+		else
+		{
+			mostrarDatosCliente(registro);
+		}
+		fclose(archivo);
+	}
+}
+void buscarClienteNombre()
+{
+	char nombreBuscado[30];
+	leerCadena(nombreBuscado, "Ingrese el Nombre del Cliente a buscar");
+
+	FILE *archivo;
+	regClie registro;
+
+	archivo = fopen(dirArchClientes,"rb");
+
+	if(archivo == NULL)
+	{
+		cout << "\n No se pudo abrir el archivo...";
+	}
+	else
+	{
+		bool encontrado = false;
+
+		fread(&registro,sizeof(regClie),1,archivo);
+		while (!feof(archivo) && !encontrado)
+		{
+			if(strcmp(registro.nombre, nombreBuscado) == 0)
+			{				
+				encontrado = true;
+			}
+			else
+			{
+				fread(&registro,sizeof(regClie),1,archivo);
+			}			
+		}
+
+		if(!encontrado)
+		{
+			cout << "\n El Nombre del registro buscado no existe.";
+		}
+		else
+		{
+			mostrarDatosCliente(registro);
+		}
+		fclose(archivo);
+	}
+
+	getch();
+}
+void listarClientes()
+{
+	FILE *archivo;
+	regClie registro;
+
+	archivo = fopen(dirArchClientes,"rb");
+
+	if(archivo == NULL)
+	{
+		cout << "\n No se pudo abrir el archivo...";
+	}
+	else
+	{
+		cout << "\n\t***LISTA DE CLIENTES***\n";
+		cout << "\nID_CLIENTE\tNOMBRE\t\tNIT\n";
+
+		fread(&registro,sizeof(regClie),1,archivo);
+		while (!feof(archivo))
+		{
+			cout << endl;
+			cout << registro.id_cliente << "\t";
+			cout << "\t" << registro.nombre;
+			cout << "\t" << registro.nit;
+
+			fread(&registro,sizeof(regClie),1,archivo);		
+		}
+
+		cout << endl;
+		
+		fclose(archivo);
+	}
+
+	getch();
+}
+bool obtenerDatosCliente(int idBuscado, regClie &registro)
+{
+	bool encontrado = false;
+
+	FILE *archivo;
+
+	archivo = fopen(dirArchClientes,"rb");
+
+	if(archivo != NULL)
+	{
+		fread(&registro,sizeof(regClie),1,archivo);
+		while (!feof(archivo) && !encontrado)
+		{
+			if(registro.id_cliente == idBuscado)
+			{				
+				encontrado = true;
+			}
+			else
+			{
+				fread(&registro,sizeof(regClie),1,archivo);
+			}			
+		}
+
+		fclose(archivo);
+	}
+
+	return encontrado;
+}
+bool existeIDCliente(int idBuscado)
+{
+	bool existe = false;
+
+	FILE *archivo;
+	regClie registro;
+
+	archivo = fopen(dirArchClientes,"rb");
+
+	if(archivo != NULL)
+	{
+		fread(&registro,sizeof(regClie),1,archivo);
+		while (!feof(archivo) && !existe)
+		{
+			if(registro.id_cliente == idBuscado)
+			{				
+				existe = true;
+			}
+			else
+			{
+				fread(&registro,sizeof(regClie),1,archivo);
+			}			
+		}
+
+		fclose(archivo);
+	}
+
+	return existe;
+}
+
+
+
+//*****************************************************************************
+//--------------------------- PROVEEDORES ------------------------------------
+//*****************************************************************************
+void mostrarMenuProveedores()
+{
+	int opcion = 0;
+
+	do
+	{
+		mostrarMenuArchivo("PROVEEDORES");
+
+		cout << endl;
+
+		opcion = leerNumeroEntero("Seleccionar Opcion");
+
+		ejecutarOpcionProveedores(opcion);
+
+	}while(opcion != 0);
+}
+void ejecutarOpcionProveedores(int opcion)
+{
+	switch(opcion)
+	{
+		case 1:
+
+			adicionarProveedor();
+			break;
+
+		case 2:
+
+			modificarProveedor();
+			break;
+
+		case 3:
+
+			borrarProveedor();
+			break;
+
+		case 4:
+
+			listarProveedores();
+			break;
+
+		case 5:
+
+			buscarProveedorID();
+			break;
+
+		case 6:
+
+			buscarProveedorNombre();
+			break;
+
+		default: break;
+	}
+}
+void leerDemasDatosProveedor(regProveedor &registroNuevo)
+{
+	leerCadena(registroNuevo.nombre, "Nombre");
+	leerCadena(registroNuevo.telefono, "Telefono");
+	leerCadena(registroNuevo.email, "e-mail");
+}
+void leerDatosProveedor(regProveedor &registroNuevo)
+{
+	bool existe;
+	do
+	{
+		registroNuevo.id_proveedor = leerNumeroEntero("ID Proveedor");
+
+		existe = existeIDProveedor(registroNuevo.id_proveedor);
+
+		if(existe)
+		{
+			cout << "\n El id ingresado ya existe.\n Intente de nuevo...\n";
+		}
+
+	}while(existe);
+
+	leerDemasDatosProveedor(registroNuevo);
+}
+void mostrarDatosProveedor(regProveedor registro)
+{
+	cout << endl << "\n ID Proveedor: " << registro.id_proveedor;
+	cout << "\n Nombre:      " << registro.nombre;
+	cout << "\n Telefono:    " << registro.telefono;
+	cout << "\n e-mail:      " << registro.email << endl;
+}
+void adicionarProveedor()
+{
+	FILE *archivo;
+	regProveedor registroNuevo;
+	
+	leerDatosProveedor(registroNuevo);
+
+	archivo = fopen(dirArchProveedores,"ab");
+
+	if(archivo == NULL)
+	{
+		cout << "\n No se pudo abrir el archivo...";
+	}
+	else
+	{
+		fwrite(&registroNuevo,sizeof(regProveedor),1,archivo);
+
+		fclose(archivo);
+
+		cout << "\n Registro Agregado...";
+	}
+
+	getch();
+}
+void modificarProveedor()
+{
+	int idBuscado = leerNumeroEntero("Ingrese el ID del Registro a modificar");
+
+	if(existeIDProveedor(idBuscado))
+	{
+		FILE *archivo;
+		regProveedor registroNuevo, registro;
+	
+		registroNuevo.id_proveedor = idBuscado;
+
+		cout << "\n Ingrese los datos del Nuevo Registro\n\n";
+		leerDemasDatosProveedor(registroNuevo);
+	
+		archivo = fopen(dirArchProveedores,"rb+");
+	
+		if(archivo == NULL)
+		{
+			cout << "\n No se pudo abrir el archivo...";
+		}
+		else
+		{
+			bool encontrado = false;
+			int PosRel = 0;
+	
+			fread(&registro,sizeof(regProveedor),1,archivo);
+			while (!feof(archivo) && !encontrado)
+			{
+				if(registro.id_proveedor == idBuscado)
+				{
+					fseek(archivo, sizeof(regProveedor)*PosRel, SEEK_SET);
+					fwrite(&registroNuevo,sizeof(regProveedor),1,archivo);
+					encontrado = true;
+				}
+				else
+				{
+					fread(&registro,sizeof(regProveedor),1,archivo);
+					PosRel++;
+				}			
+			}
+	
+			fclose(archivo);
+
+			cout << "\n Registro Modificado...";
+		}
+	}
+	else
+	{
+		cout << "\n El ID del registro buscado no existe.";
+	}
+	getch();
+}
+void borrarProveedor()
+{
+	int idBuscado = leerNumeroEntero("Ingrese el ID del Proveedor a Borrar");
+
+	if(existeIDProveedor(idBuscado))
+	{
+		FILE *archivo, *archivoAuxiliar;
+		regProveedor registro;
+
+		archivo = fopen(dirArchProveedores, "rb");
+		archivoAuxiliar = fopen(dirArchAuxiliar, "wb");
+	
+		if( (archivo != NULL) && (archivoAuxiliar != NULL) )
+		{
+			fread(&registro,sizeof(regProveedor),1,archivo);
+
+			while(!feof(archivo))
+			{
+				if(registro.id_proveedor != idBuscado)
+				{
+					fwrite(&registro,sizeof(regProveedor),1,archivoAuxiliar);
+				}
+
+				fread(&registro,sizeof(regProveedor),1,archivo);
+			}
+
+			fclose( archivo );
+			fclose( archivoAuxiliar );
+
+			remove(dirArchProveedores);
+			rename(dirArchAuxiliar, dirArchProveedores);
+
+			borrarProveedorDeArchivosRelcionados(idBuscado);
+
+			cout << "\n Registro borrado...";
+		}
+		else
+		{
+			cout << "\n No se pudo abrir el archivo...";
+		}
+	}
+	else
+	{
+		cout << "\n El ID buscado no existe.\n Intente de nuevo...";
+	}
+
+	getch();
+}
+void borrarProveedorDeArchivosRelcionados(int idProveedor)
+{
+	borrarProveedorDeCompra(idProveedor);
+}
+void buscarProveedorID()
+{
+	int idBuscado = leerNumeroEntero("Ingrese el ID del Proveedor a buscar");
+	
+	FILE *archivo;
+	regProveedor registro;
+
+	archivo = fopen(dirArchProveedores,"rb");
+
+	if(archivo == NULL)
+	{
+		cout << "\n No se pudo abrir el archivo...";
+	}
+	else
+	{
+		bool encontrado = false;
+
+		fread(&registro,sizeof(regProveedor),1,archivo);
+		while (!feof(archivo) && !encontrado)
+		{
+			if(registro.id_proveedor == idBuscado)
+			{				
+				encontrado = true;
+			}
+			else
+			{
+				fread(&registro,sizeof(regProveedor),1,archivo);
+			}			
+		}
+
+		if(!encontrado)
+		{
+			cout << "\n El ID del registro buscado no existe.";
+		}
+		else
+		{
+			mostrarDatosProveedor(registro);
+		}
+		fclose(archivo);
+	}
+
+	getch();
+}
+void buscarMostrarProveedorID(int idBuscado)
+{	
+	FILE *archivo;
+	regProveedor registro;
+
+	archivo = fopen(dirArchProveedores,"rb");
+
+	if(archivo != NULL)
+	{
+		bool encontrado = false;
+
+		fread(&registro,sizeof(regProveedor),1,archivo);
+		while (!feof(archivo) && !encontrado)
+		{
+			if(registro.id_proveedor == idBuscado)
+			{				
+				encontrado = true;
+			}
+			else
+			{
+				fread(&registro,sizeof(regProveedor),1,archivo);
+			}			
+		}
+
+		if(!encontrado)
+		{
+			cout << "\n El ID del proveedor buscado no existe.";
+			getch();
+		}
+		else
+		{
+			mostrarDatosProveedor(registro);
+		}
+		fclose(archivo);
+	}
+}
+void buscarProveedorNombre()
+{
+	char nombreBuscado[30];
+	leerCadena(nombreBuscado, "Ingrese el Nombre del Proveedor a buscar");
+
+	FILE *archivo;
+	regProveedor registro;
+
+	archivo = fopen(dirArchProveedores,"rb");
+
+	if(archivo == NULL)
+	{
+		cout << "\n No se pudo abrir el archivo...";
+	}
+	else
+	{
+		bool encontrado = false;
+
+		fread(&registro,sizeof(regProveedor),1,archivo);
+		while (!feof(archivo) && !encontrado)
+		{
+			if(strcmp(registro.nombre, nombreBuscado) == 0)
+			{				
+				encontrado = true;
+			}
+			else
+			{
+				fread(&registro,sizeof(regProveedor),1,archivo);
+			}			
+		}
+
+		if(!encontrado)
+		{
+			cout << "\n El Nombre del registro buscado no existe.";
+		}
+		else
+		{
+			mostrarDatosProveedor(registro);
+		}
+		fclose(archivo);
+	}
+
+	getch();
+}
+void listarProveedores()
+{
+	FILE *archivo;
+	regProveedor registro;
+
+	archivo = fopen(dirArchProveedores,"rb");
+
+	if(archivo == NULL)
+	{
+		cout << "\n No se pudo abrir el archivo...";
+	}
+	else
+	{
+		cout << "\n\t***LISTA DE PROVEEDORES***\n";
+		cout << "\nID_PROVEEDOR\tNOMBRE\t\tTELEFONO\tE-MAIL\n";
+
+		fread(&registro,sizeof(regProveedor),1,archivo);
+		while (!feof(archivo))
+		{
+			cout << endl;
+			cout << registro.id_proveedor << "\t";
+			cout << "\t" << registro.nombre;
+			cout << "\t" << registro.telefono;
+			cout << "\t" << registro.email;
+
+			fread(&registro,sizeof(regProveedor),1,archivo);		
+		}
+
+		cout << endl;
+		
+		fclose(archivo);
+	}
+
+	getch();
+}
+bool existeIDProveedor(int idBuscado)
+{
+	bool existe = false;
+
+	FILE *archivo;
+	regProveedor registro;
+
+	archivo = fopen(dirArchProveedores,"rb");
+
+	if(archivo != NULL)
+	{
+		fread(&registro,sizeof(regProveedor),1,archivo);
+		while (!feof(archivo) && !existe)
+		{
+			if(registro.id_proveedor == idBuscado)
+			{				
+				existe = true;
+			}
+			else
+			{
+				fread(&registro,sizeof(regProveedor),1,archivo);
+			}			
+		}
+
+		fclose(archivo);
+	}
+
+	return existe;
+}
+bool obtenerDatosProveedor(int id_proveedor, regProveedor &registro)
+{
+	bool encontrado = false;
+
+	FILE *archivo;
+
+	archivo = fopen(dirArchProveedores,"rb");
+
+	if(archivo == NULL)
+	{
+		cout << "\n No se pudo abrir el archivo...";
+		getch();
+	}
+	else
+	{
+		fread(&registro,sizeof(regProveedor),1,archivo);
+		while (!feof(archivo) && !encontrado)
+		{
+			if(registro.id_proveedor == id_proveedor)
+			{				
+				encontrado = true;
+			}
+			else
+			{
+				fread(&registro,sizeof(regProveedor),1,archivo);
+			}			
+		}
+
+		fclose(archivo);
+	}
+
+	return encontrado;
+}
+
+
+
+//*****************************************************************************
+//------------------------------ COMPRAS -------------------------------------
+//*****************************************************************************
+void mostrarMenuCompras()
+{
+	int opcion = 0;
+
+	do
+	{
+		system("CLS");
+
+		cout << "\n\n\t** COMPRAS **\n";
+	
+		cout << "\n 1.- Adicionar Registro";
+		cout << "\n 2.- Modificar Registro";
+		cout << "\n 3.- Borrar Registro";
+		cout << "\n 4.- Listar Registros";
+		cout << "\n 5.- Buscar Registro por ID";
+		
+		cout << "\n\n 0.- Atras" << endl;
+
+		opcion = leerNumeroEntero("Seleccionar Opcion");
+		
+		ejecutarOpcionCompras(opcion);
+
+	}while(opcion != 0);
+}
+void ejecutarOpcionCompras(int opcion)
+{
+	switch(opcion)
+	{
+		case 1:
+
+			adicionarCompra();
+			break;
+
+		case 2:
+
+			modificarCompra();
+			break;
+
+		case 3:
+
+			borrarCompra();
+			break;
+
+		case 4:
+
+			listarCompras();
+			break;
+
+		case 5:
+
+			buscarCompraID();
+			break;
+
+		default: break;
+	}
+}
+void leerDemasDatosCompra(regCompra &registroNuevo)
+{
+	bool existe;
+	do
+	{
+		registroNuevo.id_proveedor = leerNumeroEntero("ID Proveedor");
+
+		existe = existeIDProveedor(registroNuevo.id_proveedor);
+
+		if(!existe)
+		{
+			cout << "\n El id del proveedor ingresado no existe.\n Intente de nuevo...\n";
+		}
+
+	}while(!existe);
+
+	do
+	{
+		registroNuevo.id_producto = leerNumeroEntero("ID Producto");
+
+		existe = existeIDProducto(registroNuevo.id_producto);
+
+		if(!existe)
+		{
+			cout << "\n El id del producto ingresado no existe.\n Intente de nuevo...\n";
+		}
+
+	}while(!existe);
+
+	registroNuevo.cantidad = leerNumeroEntero("Cantidad");
+	registroNuevo.costo_unitario = leerNumeroReal("Costo Unitario");
+	leerFecha(registroNuevo.fecha, "Fecha de Compra");
+}
+void leerDatosCompra(regCompra &registroNuevo)
+{
+	bool existe;	
+	do
+	{
+		registroNuevo.id_compra = leerNumeroEntero("ID Compra");
+		
+		existe = existeIDCompra(registroNuevo.id_compra);
+
+		if(existe)
+		{
+			cout << "\n El id de la compra ingresado ya existe.\n Intente de nuevo...\n";
+		}
+
+	}while(existe);
+
+	leerDemasDatosCompra(registroNuevo);
+}
+void mostrarDatosCompra(regCompra registro)
+{
+	cout << endl << "\n ID Compra: " << registro.id_compra;
+	cout << "\n Fecha: " << registro.fecha << endl;
+	buscarMostrarProveedorID(registro.id_proveedor);
+	buscarMostrarProductoID(registro.id_producto);
+	cout << "\n Cantidad: " << registro.cantidad;
+	cout << "\n Costo Unitario: " << registro.costo_unitario << endl;	
+}
+void adicionarCompra()
+{
+	FILE *archivo;
+	regCompra registroNuevo;
+	
+	leerDatosCompra(registroNuevo);
+
+	archivo = fopen(dirArchCompras,"ab");
+
+	if(archivo == NULL)
+	{
+		cout << "\n No se pudo abrir el archivo...";
+	}
+	else
+	{
+		fwrite(&registroNuevo,sizeof(regCompra),1,archivo);
+
+		fclose(archivo);
+
+		aumentarStock(registroNuevo.id_producto, registroNuevo.cantidad);
+
+		cout << "\n Registro Agregado...";
+	}
+
+	getch();
+}
+void modificarCompra()
+{
+	int idBuscado = leerNumeroEntero("Ingrese el ID del Registro a modificar");
+
+	if(existeIDCompra(idBuscado))
+	{
+		FILE *archivo;
+		regCompra registroNuevo, registro;
+
+		registroNuevo.id_compra = idBuscado;
+
+		cout << "\n Ingrese los datos del Nuevo Registro\n\n";
+		leerDemasDatosCompra(registroNuevo);
+
+		archivo = fopen(dirArchCompras,"rb+");
+	
+		if(archivo == NULL)
+		{
+			cout << "\n No se pudo abrir el archivo...";
+		}
+		else
+		{
+			bool encontrado = false;
+			int PosRel = 0;
+			
+			fread(&registro,sizeof(regCompra),1,archivo);
+			while (!feof(archivo) && !encontrado)
+			{
+				if(registro.id_compra == idBuscado)
+				{
+					fseek(archivo, sizeof(regCompra)*PosRel, SEEK_SET);
+					fwrite(&registroNuevo,sizeof(regCompra),1,archivo);
+					encontrado = true;
+	
+					modificarStock(registroNuevo.id_producto, registro.cantidad, registroNuevo.cantidad);
+				}
+				else
+				{
+					fread(&registro,sizeof(regCompra),1,archivo);
+					PosRel++;
+				}			
+			}
+
+			cout << "\n Registro Modificado...";
+			fclose(archivo);
+		}
+	}
+	else
+	{
+		cout << "\n El ID del registro buscado no existe.";
+	}
+	getch();
+}
+void borrarCompra()
+{
+	int idBuscado = leerNumeroEntero("Ingrese el ID del Registro a Borrar");
+
+	if(existeIDCompra(idBuscado))
+	{
+		FILE *archivo, *archivoAuxiliar;
+		regCompra registro;
+
+		archivo = fopen(dirArchCompras, "rb");
+		archivoAuxiliar = fopen(dirArchAuxiliar, "wb");
+		
+		if( (archivo != NULL) && (archivoAuxiliar != NULL) )
+		{
+			fread(&registro,sizeof(regCompra),1,archivo);
+
+			while(!feof(archivo))
+			{
+				if(registro.id_compra != idBuscado)
+				{
+					fwrite(&registro,sizeof(regCompra),1,archivoAuxiliar);
+				}
+
+				fread(&registro,sizeof(regCompra),1,archivo);
+			}
+
+			fclose( archivo );
+			fclose( archivoAuxiliar );
+
+			remove(dirArchCompras);
+			rename(dirArchAuxiliar, dirArchCompras);
+
+			cout << "\n Registro borrado...";
+		}
+		else
+		{
+			cout << "\n No se pudo abrir el archivo...";
+		}
+	}
+	else
+	{
+		cout << "\n El ID ingresado no existe.\n Intente de nuevo...\n";
+	}
+	getch();
+}
+void borrarProveedorDeCompra(int idProveedorBuscado)
+{
+	FILE *archivo;
+	regCompra registro;
+
+	archivo = fopen(dirArchCompras,"rb+");
+
+	if(archivo != NULL)
+	{
+		int PosRel = 0;
+
+		fread(&registro,sizeof(regCompra),1,archivo);
+		while (!feof(archivo))
+		{
+			if(registro.id_proveedor == idProveedorBuscado)
+			{
+				registro.id_proveedor = -1;
+				
+				modificarCompraEnEstaPosicion(PosRel, registro);
+			}
+			
+			fread(&registro,sizeof(regCompra),1,archivo);
+			PosRel++;			
+		}
+		fclose(archivo);
+	}
+}
+void borrarProductoDeCompra(int idProductoBuscado)
+{
+	FILE *archivo;
+	regCompra registro;
+
+	archivo = fopen(dirArchCompras,"rb+");
+
+	if(archivo != NULL)
+	{
+		int PosRel = 0;
+
+		fread(&registro,sizeof(regCompra),1,archivo);
+		while (!feof(archivo))
+		{
+			if(registro.id_producto == idProductoBuscado)
+			{
+				registro.id_producto = -1;
+				
+				modificarCompraEnEstaPosicion(PosRel, registro);
+			}
+			
+			fread(&registro,sizeof(regCompra),1,archivo);
+			PosRel++;			
+		}
+		fclose(archivo);
+	}
+}
+void modificarCompraEnEstaPosicion(int pos, regCompra registro)
+{
+	FILE *archivo;
+
+	archivo = fopen(dirArchCompras,"rb+");
+
+	if(archivo != NULL)
+	{
+		fseek(archivo, sizeof(regCompra)*pos, SEEK_CUR);
+		fwrite(&registro,sizeof(regCompra),1,archivo);
+
+		fclose(archivo);
+	}
+}
+void buscarCompraID()
+{
+	int idBuscado = leerNumeroEntero("Ingrese el ID del Registro a buscar");
+
+	FILE *archivo;
+	regCompra registro;
+
+	archivo = fopen(dirArchCompras,"rb");
+
+	if(archivo == NULL)
+	{
+		cout << "\n No se pudo abrir el archivo...";
+	}
+	else
+	{
+		bool encontrado = false;
+
+		fread(&registro,sizeof(regCompra),1,archivo);
+		while (!feof(archivo) && !encontrado)
+		{
+			if(registro.id_compra == idBuscado)
+			{				
+				encontrado = true;
+			}
+			else
+			{
+				fread(&registro,sizeof(regCompra),1,archivo);
+			}			
+		}
+
+		if(!encontrado)
+		{
+			cout << "\n El ID del registro buscado no existe.";
+		}
+		else
+		{
+			mostrarDatosCompra(registro);
+		}
+		fclose(archivo);
+	}
+
+	getch();
+}
+void buscarMostrarCompraID(int idBuscado)
+{
+	FILE *archivo;
+	regCompra registro;
+
+	archivo = fopen(dirArchCompras,"rb");
+
+	if(archivo != NULL)
+	{
+		bool encontrado = false;
+
+		fread(&registro,sizeof(regCompra),1,archivo);
+		while (!feof(archivo) && !encontrado)
+		{
+			if(registro.id_compra == idBuscado)
+			{				
+				encontrado = true;
+			}
+			else
+			{
+				fread(&registro,sizeof(regCompra),1,archivo);
+			}			
+		}
+
+		if(!encontrado)
+		{
+			cout << "\n El ID del Compra buscado no existe.";
+			getch();
+		}
+		else
+		{
+			mostrarDatosCompra(registro);
+		}
+		fclose(archivo);
+	}
+}
+void listarCompras()
+{
+	FILE *archivo;
+	regCompra registro;
+
+	archivo = fopen(dirArchCompras,"rb");
+
+	if(archivo == NULL)
+	{
+		cout << "\n No se pudo abrir el archivo...";
+	}
+	else
+	{
+		cout << "\n\t***LISTA DE COMPRAS***\n";
+		cout << "\nID_COMP\tFECHA\tID_PROVEEDOR\tID_PRODUCTO\tCANTIDAD\tCOSTO UNITARIO\n";
+
+		fread(&registro,sizeof(regCompra),1,archivo);
+		while (!feof(archivo))
+		{
+			cout << endl;
+			cout << registro.id_compra << "\t";
+			cout << registro.fecha << "\t";
+
+			mostrarValorDelID(registro.id_proveedor);
+			cout << "\t";
+
+			mostrarValorDelID(registro.id_producto);
+			cout << "\t\t";
+
+			cout << registro.cantidad << "\t\t";
+			cout << registro.costo_unitario;
+
+			fread(&registro,sizeof(regCompra),1,archivo);		
+		}
+
+		cout << endl;
+		
+		fclose(archivo);
+	}
+
+	getch();
+}
+bool obtenerDatosCompra(int idBuscado, regCompra &registro)
+{
+	bool encontrado = false;
+
+	FILE *archivo;
+
+	archivo = fopen(dirArchCompras,"rb");
+
+	if(archivo != NULL)
+	{
+		fread(&registro,sizeof(regCompra),1,archivo);
+		while (!feof(archivo) && !encontrado)
+		{
+			if(registro.id_compra == idBuscado)
+			{				
+				encontrado = true;
+			}
+			else
+			{
+				fread(&registro,sizeof(regCompra),1,archivo);
+			}			
+		}
+
+		fclose(archivo);
+	}
+
+	return encontrado;
+}
+bool existeIDCompra(int idBuscado)
+{
+	bool existe = false;
+
+	FILE *archivo;
+	regCompra registro;
+
+	archivo = fopen(dirArchCompras,"rb");
+
+	if(archivo != NULL)
+	{
+		fread(&registro,sizeof(regCompra),1,archivo);
+		while (!feof(archivo) && !existe)
+		{
+			if(registro.id_compra == idBuscado)
+			{				
+				existe = true;
+			}
+			else
+			{
+				fread(&registro,sizeof(regCompra),1,archivo);
+			}			
+		}
+
+		fclose(archivo);
+	}
+
+	return existe;
+}
+
+
+
+//*****************************************************************************
+//------------------------------- VENTAS -------------------------------------
+//*****************************************************************************
+void mostrarMenuVentas()
+{
+	int opcion = 0;
+
+	do
+	{
+		system("CLS");
+
+		cout << "\n\n\t** VENTAS **\n";
+	
+		cout << "\n 1.- Adicionar Venta";
+		cout << "\n 2.- Modificar Venta";
+		cout << "\n 3.- Borrar Venta";
+		cout << "\n 4.- Listar Ventas";
+		cout << "\n 5.- Buscar Registro por ID Venta";
+
+		cout << "\n\n 0.- Atras" << endl;
+
+		opcion = leerNumeroEntero("Seleccionar Opcion");
+
+		ejecutarOpcionVentas(opcion);
+
+	}while(opcion != 0);
+}
+void ejecutarOpcionVentas(int opcion)
+{
+	switch(opcion)
+	{
+		case 1:
+
+			adicionarVenta();
+			break;
+
+		case 2:
+
+			modificarVenta();
+			break;
+
+		case 3:
+
+			borrarVenta();
+			break;
+
+		case 4:
+
+			listarVentas();
+			break;
+
+		case 5:
+
+			buscarVentaID();
+			break;
+
+		default: break;
+	}
+}
+void leerDemasDatosVenta(regVenta &registroNuevo)
+{
+	leerFecha(registroNuevo.fecha, "Fecha de Venta");
+	
+	bool existeID;
+	do
+	{
+		registroNuevo.id_vendedor = leerNumeroEntero("ID Vendedor");
+		
+		existeID = existeIDVendedor(registroNuevo.id_vendedor);
+
+		if(!existeID)
+		{
+			cout << "\n El ID del Vendedor no existe.\n Intente de nuevo...\n";
+		}
+
+	}while(!existeID);
+
+	do
+	{
+		registroNuevo.id_cliente = leerNumeroEntero("ID Cliente");
+
+		existeID = existeIDCliente(registroNuevo.id_cliente);
+
+		if(!existeID)
+		{
+			cout << "\n El ID del Cliente no Existe, intente de nuevo...\n";
+		}
+
+	}while (!existeID);
+
+	do
+	{
+		registroNuevo.id_producto = leerNumeroEntero("ID Producto");
+
+		existeID = existeIDProducto(registroNuevo.id_producto);
+
+		if(!existeID)
+		{
+			cout << "\n El ID del Producto no Existe, intente de nuevo...\n";
+		}
+
+	}while (!existeID);
+
+	bool hayPaVender;
+	do
+	{
+		registroNuevo.cantidad = leerNumeroEntero("Cantidad");
+
+		hayPaVender = hayCantidadSuficienteStock(registroNuevo.id_producto, registroNuevo.cantidad);
+
+		if(!hayPaVender)
+		{
+			cout << "\n No hay suficiente stock del producto para vender esa cantidad, intente de nuevo...\n";
+		}
+
+	}while (!hayPaVender);
+		
+	registroNuevo.precio_unitario = leerNumeroReal("Precio Unitario");
+}
+void leerDatosVenta(regVenta &registroNuevo)
+{
+	bool existeID;
+	do
+	{
+		registroNuevo.id_venta = leerNumeroEntero("ID Venta");
+
+		existeID = existeIDVenta(registroNuevo.id_venta);
+
+		if(existeID)
+		{
+			cout << "\n El id ingresado ya existe.\n Intente de nuevo...\n";
+		}
+
+	}while(existeID);
+		
+	leerDemasDatosVenta(registroNuevo);
+}
+void mostrarDatosVenta(regVenta registro)
+{
+	cout << "\n ID Venta:		 " << registro.id_venta;
+	cout << "\n Fecha:			 " << registro.fecha;
+	cout << "\n Cantidad:		 " << registro.cantidad;
+	cout << "\n Precio Unitario: " << registro.precio_unitario << endl;
+
+	cout << "\n\n\n DATOS DEL VENDEDOR\n";
+	buscarMostrarVendedorID(registro.id_vendedor);
+
+	cout << "\n\n\n DATOS DEL CLIENTE\n";
+	buscarMostrarClienteID(registro.id_cliente);
+
+	cout << "\n\n\n DATOS DEL PRODUCTO\n";
+	buscarMostrarProductoID(registro.id_producto);
+}
+void adicionarVenta()
+{
+	FILE *archivo;
+	regVenta registroNuevo;
+	
+	leerDatosVenta(registroNuevo);
+
+	archivo = fopen(dirArchVentas,"ab");
+
+	if(archivo == NULL)
+	{
+		cout << "\n No se pudo abrir el archivo...";
+	}
+	else
+	{
+		fwrite(&registroNuevo,sizeof(regVenta),1,archivo);
+
+		fclose(archivo);
+
+		disminuirStock(registroNuevo.id_producto, registroNuevo.cantidad);
+
+		cout << "\n Registro Agregado...";
+	}
+
+	getch();
+}
+void modificarVenta()
+{
+	int idBuscado = leerNumeroEntero("Ingrese el ID del Registro a modificar");
+	
+	if(existeIDVenta(idBuscado))
+	{
+		FILE *archivo;
+		regVenta registroNuevo, registro;
+
+		registroNuevo.id_venta = idBuscado;
+
+		cout << "\n Ingrese los datos del Nuevo Registro\n\n";
+		leerDemasDatosVenta(registroNuevo);
+
+		archivo = fopen(dirArchVentas,"rb+");
+
+		if(archivo == NULL)
+		{
+			cout << "\n No se pudo abrir el archivo...";
+		}
+		else
+		{
+			bool encontrado = false;
+			int PosRel = 0;
+
+			fread(&registro,sizeof(regVenta),1,archivo);
+			while (!feof(archivo) && !encontrado)
+			{
+				if(registro.id_venta == idBuscado)
+				{
+					fseek(archivo, sizeof(regVenta)*PosRel, SEEK_SET);
+					fwrite(&registroNuevo,sizeof(regVenta),1,archivo);
+					encontrado = true;
+
+					modificarStock(registroNuevo.id_producto, registro.cantidad*(-1), registroNuevo.cantidad*(-1));
+				}
+				else
+				{
+					fread(&registro,sizeof(regVenta),1,archivo);
+					PosRel++;
+				}			
+			}
+			
+			fclose(archivo);
+
+			cout << "\n Registro Modificado...";
+		}
+	}
+	else
+	{
+		cout << "\n El ID del registro buscado no existe.";
+	}
+	getch();
+}
+void borrarVenta()
+{
+	int idBuscado = leerNumeroEntero("Ingrese el ID del Venta a Borrar");
+	
+	if(existeIDVenta(idBuscado))
+	{
+		FILE *archivo, *archivoAuxiliar;
+		regVenta registro;
+
+		archivo = fopen(dirArchVentas, "rb");
+		archivoAuxiliar = fopen(dirArchAuxiliar, "wb");
+	
+		if( (archivo != NULL) && (archivoAuxiliar != NULL) )
+		{
+			fread(&registro,sizeof(regVenta),1,archivo);
+
+			while(!feof(archivo))
+			{
+				if(registro.id_venta != idBuscado)
+				{
+					fwrite(&registro,sizeof(regVenta),1,archivoAuxiliar);
+				}
+				else
+				{
+					if(registro.id_producto != -1)
+					{
+						aumentarStock(registro.id_producto, registro.cantidad);
+					}
+				}
+
+				fread(&registro,sizeof(regVenta),1,archivo);
+			}
+
+			fclose( archivo );
+			fclose( archivoAuxiliar );
+
+			remove(dirArchVentas);
+			rename(dirArchAuxiliar, dirArchVentas);
+
+			cout << "\n Registro borrado...";
+		}
+		else
+		{
+			cout << "\n No se pudo abrir el archivo...";
+		}
+	}
+	else
+	{
+		cout << "\n El ID buscado no existe.\n Intente de nuevo...";
+	}
+	getch();
+}
+void borrarVendedorDeVenta(int idVendedor)
+{
+	FILE *archivo;
+	regVenta registro;
+
+	archivo = fopen(dirArchVentas,"rb+");
+
+	if(archivo != NULL)
+	{
+		int PosRel = 0;
+
+		fread(&registro,sizeof(regVenta),1,archivo);
+		while (!feof(archivo))
+		{
+			if(registro.id_vendedor == idVendedor)
+			{
+				registro.id_vendedor = -1;
+
+				modificarVentaEnEstaPosicion(PosRel, registro);
+			}
+			
+			fread(&registro,sizeof(regVenta),1,archivo);
+			PosRel++;
+		}
+		fclose(archivo);
+	}
+}
+void borrarClienteDeVenta(int idCliente)
+{
+	FILE *archivo;
+	regVenta registro;
+
+	archivo = fopen(dirArchVentas,"rb+");
+
+	if(archivo != NULL)
+	{
+		int PosRel = 0;
+
+		fread(&registro,sizeof(regVenta),1,archivo);
+		while (!feof(archivo))
+		{
+			if(registro.id_cliente == idCliente)
+			{
+				registro.id_cliente = -1;
+
+				modificarVentaEnEstaPosicion(PosRel, registro);
+			}
+			
+			fread(&registro,sizeof(regVenta),1,archivo);
+			PosRel++;
+		}
+		fclose(archivo);
+	}
+}
+void borrarProductoDeVenta(int idProducto)
+{
+	FILE *archivo;
+	regVenta registro;
+
+	archivo = fopen(dirArchVentas,"rb+");
+
+	if(archivo != NULL)
+	{
+		int PosRel = 0;
+
+		fread(&registro,sizeof(regVenta),1,archivo);
+		while (!feof(archivo))
+		{
+			if(registro.id_producto == idProducto)
+			{
+				registro.id_producto = -1;
+
+				modificarVentaEnEstaPosicion(PosRel, registro);
+			}
+
+			fread(&registro,sizeof(regVenta),1,archivo);
+			PosRel++;			
+		}
+		fclose(archivo);
+	}
+}
+void modificarVentaEnEstaPosicion(int pos, regVenta registro)
+{
+	FILE *archivo;
+
+	archivo = fopen(dirArchVentas,"rb+");
+
+	if(archivo != NULL)
+	{
+		fseek(archivo, sizeof(regVenta)*pos, SEEK_CUR);
+		fwrite(&registro,sizeof(regVenta),1,archivo);
+
+		fclose(archivo);
+	}
+}
+void buscarVentaID()
+{
+	int idBuscado = leerNumeroEntero("Ingrese el ID del Venta a buscar");
+		
+	FILE *archivo;
+	regVenta registro;
+
+	archivo = fopen(dirArchVentas,"rb");
+
+	if(archivo != NULL)
+	{
+		bool encontrado = false;
+
+		fread(&registro,sizeof(regVenta),1,archivo);
+		while (!feof(archivo) && !encontrado)
+		{
+			if(registro.id_venta == idBuscado)
+			{				
+				encontrado = true;
+			}
+			else
+			{
+				fread(&registro,sizeof(regVenta),1,archivo);
+			}			
+		}
+
+		if(!encontrado)
+		{
+			cout << "\n El ID de la venta buscada no existe.";
+		}
+		else
+		{
+			mostrarDatosVenta(registro);
+		}
+		fclose(archivo);
+	}
+	getch();
+}
+void listarVentas()
+{
+	FILE *archivo;
+	regVenta registro;
+
+	archivo = fopen(dirArchVentas,"rb");
+
+	if(archivo == NULL)
+	{
+		cout << "\n No se pudo abrir el archivo...";
+	}
+	else
+	{
+		cout << "\n\t***LISTA DE VENTAS***\n";
+		cout << "\nID_VENT\tFECHA\t\tID_VEND\tID_CLI\tID_PROD\tCANT\tPREC_UNIT\n";
+
+		fread(&registro,sizeof(regVenta),1,archivo);
+		while (!feof(archivo))
+		{
+			cout << endl;
+			cout << registro.id_venta << "\t";
+			cout << registro.fecha << "\t";
+			
+			mostrarValorDelID(registro.id_vendedor);
+			cout << "\t";
+
+			mostrarValorDelID(registro.id_cliente);
+			cout << "\t";
+
+			mostrarValorDelID(registro.id_producto);
+			cout << "\t";
+
+			cout << registro.cantidad << "\t" ;
+			cout << registro.precio_unitario;
+
+			fread(&registro,sizeof(regVenta),1,archivo);		
+		}
+
+		cout << endl;
+		
+		fclose(archivo);
+	}
+
+	getch();
+}
+bool existeIDVenta(int idBuscado)
+{
+	bool existe = false;
+
+	FILE *archivo;
+	regVenta registro;
+
+	archivo = fopen(dirArchVentas,"rb");
+
+	if(archivo != NULL)
+	{
+		fread(&registro,sizeof(regVenta),1,archivo);
+		while (!feof(archivo) && !existe)
+		{
+			if(registro.id_venta == idBuscado)
+			{				
+				existe = true;
+			}
+			else
+			{
+				fread(&registro,sizeof(regVenta),1,archivo);
+			}			
+		}
+
+		fclose(archivo);
+	}
+
+	return existe;
+}
+bool obtenerDatosVenta(int idBuscado, regVenta &registro)
+{
+	bool encontrado = false;
+
+	FILE *archivo;
+
+	archivo = fopen(dirArchVentas,"rb");
+
+	if(archivo == NULL)
+	{
+		cout << "\n No se pudo abrir el archivo...";
+		getch();
+	}
+	else
+	{
+		fread(&registro,sizeof(regVenta),1,archivo);
+		while (!feof(archivo) && !encontrado)
+		{
+			if(registro.id_venta == idBuscado)
+			{				
+				encontrado = true;
+			}
+			else
+			{
+				fread(&registro,sizeof(regVenta),1,archivo);
+			}			
+		}
+
+		fclose(archivo);
+	}
+
+	return encontrado;
+}
+
+
+
+//*****************************************************************************
+//------------------------------- REPORTES ------------------------------------
+//*****************************************************************************
+void mostrarMenuReportes()
+{
+	int opcion = 0;
+
+	do
+	{
+		system("CLS");
+
+		cout << "\n\n\t** REPORTES **\n\n";
+	
+		cout << "\n 1.-  Ventas por Vendedor en un determinado Periodo";
+		cout << "\n 2.-  Mostrar Cliente con mas en un determinado Periodo";
+		//cout << "\n 3.-  Mostrar Reporte de Defensa";
+
+		cout << "\n\n 0.- Atras" << endl;
+
+		opcion = leerNumeroEntero("Seleccionar Opcion");
+
+		ejecutarOpcionReportes(opcion);
+
+	}while(opcion != 0);
+}
+void ejecutarOpcionReportes(int opcion)
+{
+	switch(opcion)
+	{
+		case 1:
+
+			Ventas_Por_Vendedor_en_Periodo_de_Fechas();
+			break;
+
+		case 2:
+
+			Mostrar_Cliente_Con_Mas_Compras_en_Periodo_de_Fechas();
+			break;
+
+		case 3:
+
+			//Mostrar_Reporte_de_Defensa();
+			break;
+		default: break;
+	}
+}
+
+void Ventas_Por_Vendedor_en_Periodo_de_Fechas()
+{
+	char fechaInicio[11];
+	char fechaFin[11];
+
+	leerRangoDeFechas(fechaInicio, fechaFin);
+		
+	FILE *archivo;
+	regVend registro;
+
+	archivo = fopen(dirArchVendedores,"rb");
+	
+	if(archivo == NULL)
+	{
+		cout << "\n No se pudo abrir el archivo...";
+	}
+	else
+	{		
+		system("CLS");
+		cout << "\n\t   <<**** Reporte de Ventas de Vendedores ****>>\n";
+		cout << "\n +---------------------------------------------------------------+\n";
+		cout << "\t     Periodo: del  " << fechaInicio << "   al  " << fechaFin;
+		cout << "\n +---------------------------------------------------------------+";
+
+		fread(&registro,sizeof(regVend),1,archivo);
+		while (!feof(archivo))
+		{			
+			if( cantidadVentasDelVendedorEnFechas(registro.id_vendedor, fechaInicio, fechaFin) > 0)
+			{
+				mostrarDatosVendedor(registro);
+
+				listarVentasPorIDVendedorEnFechas(registro.id_vendedor, fechaInicio, fechaFin);
+				
+				cout << "\n\n +---------------------------------------------------------------+";
+			}
+
+			fread(&registro,sizeof(regVend),1,archivo);
+		}
+		fclose(archivo);
+	}
+	getch();
+}
+int cantidadVentasDelVendedorEnFechas(int idVendedor, char fechaInicio[11], char fechaFin[11])
+{
+	int cantidadVentas = 0;
+
+	FILE *archivo;
+	regVenta registro;
+
+	archivo = fopen(dirArchVentas,"rb");
+
+	if(archivo != NULL)
+	{
+		fread(&registro,sizeof(regVenta),1,archivo);
+		while (!feof(archivo))
+		{
+			if(fechaEstaEnRango(registro.fecha, fechaInicio, fechaFin))
+			{	
+				if(registro.id_vendedor == idVendedor)
+				{
+					cantidadVentas++;
+				}
+			}
+
+			fread(&registro,sizeof(regVenta),1,archivo);		
+		}
+				
+		fclose(archivo);
+	}
+
+	return cantidadVentas;
+}
+void listarVentasPorIDVendedorEnFechas(int idVendedor, char fechaInicio[11], char fechaFin[11])
+{
+	FILE *archivo;
+	regVenta registro;
+
+	archivo = fopen(dirArchVentas,"rb");
+
+	if(archivo != NULL)
+	{
+		cout << "\n ID_VENT\tFECHA\t\tID_CLI\tID_PROD\tCANT\tPREC_UNIT\n";
+		
+		fread(&registro,sizeof(registro),1,archivo);
+		while (!feof(archivo))
+		{
+			if(fechaEstaEnRango(registro.fecha, fechaInicio, fechaFin))
+			{	
+				if(registro.id_vendedor == idVendedor)
+				{
+					cout << endl << " ";
+					cout << registro.id_venta << "\t\t";
+					cout << registro.fecha << "\t";
+
+					mostrarValorDelID(registro.id_cliente);
+					cout << "\t";
+
+					mostrarValorDelID(registro.id_producto);
+					cout << "\t";
+
+					cout << registro.cantidad << "\t" ;
+					cout << registro.precio_unitario;
+				}
+			}
+
+			fread(&registro,sizeof(registro),1,archivo);		
+		}
+				
+		fclose(archivo);
+	}
+}
+
+void Mostrar_Cliente_Con_Mas_Compras_en_Periodo_de_Fechas()
+{
+	char fechaInicio[11];
+	char fechaFin[11];
+
+	leerRangoDeFechas(fechaInicio, fechaFin);
+
+	FILE *archivo;
+	regClie registro;
+	regClie registroClienteMayor;
+
+	archivo = fopen(dirArchClientes,"rb");
+
+	if(archivo == NULL)
+	{
+		cout << "\n No se pudo abrir el archivo...";
+	}
+	else
+	{
+		int cantidadMayor = 0;
+		int cantidadActual = 0;
+
+		fread(&registro,sizeof(regClie),1,archivo);
+		registroClienteMayor = registro;
+		while (!feof(archivo))
+		{
+			cantidadActual = obtenerMontoDeComprasDeClienteEnFechas(registro.id_cliente, fechaInicio, fechaFin);
+
+			if(cantidadActual > cantidadMayor)
+			{
+				cantidadMayor = cantidadActual;
+				registroClienteMayor = registro;
+			}
+
+			fread(&registro,sizeof(regClie),1,archivo);
+		}
+
+		cout << endl << " CLIENTE COM MAS COMPRAS" << endl;
+
+		mostrarDatosCliente(registroClienteMayor);
+
+		cout << endl << " Con un total de " << cantidadMayor << " en compras." << endl;
+		
+		fclose(archivo);
+	}
+
+	getch();
+}
+int obtenerCantidadDeComprasDeClienteEnFechas(int idClienteBuscado, char fechaInicio[11], char fechaFin[11])
+{
+	int cantidad = 0;
+
+	FILE *archivo;
+	regVenta registro;
+
+	archivo = fopen(dirArchVentas,"rb");
+
+	if(archivo == NULL)
+	{
+		cout << "\n No se pudo abrir el archivo...";
+	}
+	else
+	{
+		fread(&registro,sizeof(regVenta),1,archivo);
+		while (!feof(archivo))
+		{
+			if(fechaEstaEnRango(registro.fecha, fechaInicio, fechaFin))
+			{
+				if(idClienteBuscado == registro.id_cliente)  
+				{	
+					cantidad++;
+				}
+			}
+
+			fread(&registro,sizeof(regVenta),1,archivo);		
+		}
+
+		fclose(archivo);
+	}
+
+	return cantidad;
+}
+int obtenerMontoDeComprasDeClienteEnFechas(int idClienteBuscado, char fechaInicio[11], char fechaFin[11])
+{
+	int monto = 0;
+
+	FILE *archivo;
+	regVenta registro;
+
+	archivo = fopen(dirArchVentas,"rb");
+
+	if(archivo == NULL)
+	{
+		cout << "\n El archivo no pudo ser abierto...";
+	}
+	else
+	{
+		fread(&registro,sizeof(regVenta),1,archivo);
+		while (!feof(archivo))
+		{
+			if(fechaEstaEnRango(registro.fecha, fechaInicio, fechaFin))
+			{
+				if(idClienteBuscado == registro.id_cliente)  
+				{	
+					monto = monto + (registro.precio_unitario * registro.cantidad);
+				}
+			}
+
+			fread(&registro,sizeof(regVenta),1,archivo);		
+		}
+
+		fclose(archivo);
+	}
+
+	return monto;
+}
