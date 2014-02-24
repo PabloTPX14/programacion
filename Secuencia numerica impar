@@ -1,0 +1,28 @@
+// Secuencia numérica de numeros impares.cpp : Defines the entry point for the console application.
+//
+
+#include <stdafx.h>
+#include <iostream>
+#include <conio.h>
+
+using namespace std;
+
+void mostrarImpares (int n)
+{
+	int i, imp=-1;
+	for (i=0; i<n; i++)
+	{
+		imp=imp+2;
+		cout << imp << " ";
+	}
+}
+
+int main()
+{
+ int nros;
+ cout<< "Cantidad de numeros impares: ";
+ cin >> nros;
+ mostrarImpares(nros);
+ getch();
+ return(1);
+}
