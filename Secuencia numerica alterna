@@ -1,0 +1,38 @@
+// Secuencia numérica.cpp : Defines the entry point for the console application.
+// Ej. N=8 >> 8 1 6 3 4 5 2 7
+
+#include <stdafx.h>
+#include <iostream>
+#include <conio.h>
+
+using namespace std;
+
+void mostrarValoresPareseImpares (int n)
+{
+	int i, par=n, impar=1, s;
+	if(n%2!=0){
+		par++;
+	}
+	for (i=0; i<n; i++)
+	{
+		if(i%2==0){
+		s = par;
+		par = par - 2;
+		}
+		else{
+		    s = impar;
+			impar = impar + 2;
+		}
+		cout << s << " ";
+	}
+}
+
+int main()
+{
+ int nros;
+ cout<< "Cantidad de numeros: ";
+ cin >> nros;
+ mostrarValoresPareseImpares(nros);
+ getch();
+ return(1);
+}
