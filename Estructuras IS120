@@ -1,0 +1,45 @@
+// Estructura de datos para cantidad limitada de personas
+//
+#include "stdafx.h"
+#include <iostream>
+#include <conio.h>
+#include <string.h>
+
+using namespace std;
+
+struct amigo{
+	char nombre[30];
+	int edad;
+	char sexo;
+};
+
+int main()
+{
+	amigo x,y;
+	cout<<"Nombre: ";
+	do {
+		gets(x.nombre);
+		}while(strlen(x.nombre)==0);
+	cout<<"Ingrese edad: ";
+	cin>> x.edad;
+	cout<<"Ingrese sexo <F>=Femenino o <M>=Masculino : ";
+	cin>> x.sexo;
+	cout<<"Nombre: ";
+	do {
+		gets(y.nombre);
+		}while(strlen(y.nombre)==0);
+	cout<<"Ingrese edad: ";
+	cin>> y.edad;
+	cout<<"Ingrese sexo <F>=Femenino o <M>=Masculino : ";
+	cin>> y.sexo;
+	cout<<endl<<"los datos ingresados son: ";
+	cout<<endl<<x.nombre;
+	cout<<endl<<x.edad;
+	cout<<endl<<x.sexo;
+	cout<<endl<<"los datos ingresados son: ";
+	cout<<endl<<y.nombre;
+	cout<<endl<<y.edad;
+	cout<<endl<<y.sexo;
+	getch();
+	return(1);
+}
