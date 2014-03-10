@@ -1,0 +1,64 @@
+// Estructura de datos con cadenas
+//
+#include "stdafx.h"
+#include <iostream>
+#include <conio.h>
+#include <string.h>
+
+using namespace std;
+
+struct cadenas{
+	char campo1[30];
+	char campo2[30];
+	char campo3[30];
+	char campo4[30];
+};
+
+void cargar(cadenas vec[], int n)
+{
+	int i;
+	for (i=0;i<n;i++)
+	{
+		cout<<"Ingrese cadena: ";
+		do{
+			gets(vec[i].campo1);
+		}while(strlen(vec[i].campo1)==0);
+		vec[i].campo2[0] = '\0';
+		vec[i].campo3[0] = '\0';
+		vec[i].campo4[0] = '\0';
+	}
+}
+
+void mostrar(cadenas vec[], int n)
+{
+	int i;
+	cout<<endl<<"Los datos son: ";
+	for (i=0;i<n;i++)
+	{
+		cout<<endl<<vec[i].campo1<<" "<<vec[i].campo2<<" "<<vec[i].campo3<<" "<<vec[i].campo4;
+	}
+}
+
+void copiarContenido(cadenas vec[], int n)
+{
+int i;
+cout<<endl<<"Los datos son: ";
+for(i=0;i<n;i++)
+{
+	strcpy(vec[i].campo2, vec[i].campo1);
+	strcpy(vec[i].campo3, vec[i].campo1);
+	strcpy(vec[i].campo4, vec[i].campo1);
+}
+}
+int main()
+{
+	int n;
+	cadenas vector [50];
+	cout<<"Ingrese numero de amigos: ";
+	cin>>n;
+	cargar(vector, n);
+	mostrar(vector, n);
+	copiarContenido(vector, n);
+	getch();
+	return(1);
+}
