@@ -1,0 +1,67 @@
+// Estructura de datos con vectores
+//
+#include "stdafx.h"
+#include <iostream>
+#include <conio.h>
+#include <string.h>
+
+using namespace std;
+
+struct amigo{
+	char nombre[30];
+	int edad;
+	char sexo;
+};
+
+void cargar(amigo vec[], int n)
+{
+	int i;
+	for (i=0;i<n;i++)
+	{
+		cout<< "Ingrese nombre: ";
+		do{
+			gets(vec[i].nombre);
+		}while(strlen(vec[i].nombre)==0);
+		cout<<"Ingrese edad:";
+		cin>>vec[i].edad;
+		cout<<"Ingrese sexo: "<<endl<<"<F>=Femenino o <M>=Masculino"<<endl;
+		cin>>vec[i].sexo;
+	}
+}
+
+void mostrar(amigo vec[], int n)
+{
+	int i;
+	cout<<endl<<"Los datos ingresados son: ";
+	for (i=0;i<n;i++)
+	{
+		cout<<endl<<vec[i].nombre<<" "<<vec[i].edad<<" "<<vec[i].sexo;
+	}
+}
+
+void mostarAmigoMayor(amigo vec[], int n)
+{
+int i, edadMayor=0, k;
+for(i=0;i<n;i++)
+{
+	if(vec[i].edad > edadMayor)
+	{
+		k=i;
+		edadMayor=vec[i].edad;
+	}
+}
+cout<<endl<<"Los datos del amigo mayor es: ";
+cout<<endl<< vec[k].nombre<<" "<<vec[k].edad<<" "<<vec[k].sexo;
+}
+int main()
+{
+	int n;
+	amigo vector [50];
+	cout<<"Ingrese numero de amigos: ";
+	cin>>n;
+	cargar(vector, n);
+	mostrar(vector, n);
+	mostarAmigoMayor(vector, n);
+	getch();
+	return(1);
+}
