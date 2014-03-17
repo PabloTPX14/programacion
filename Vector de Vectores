@@ -1,0 +1,146 @@
+//VECTORES DE VECTORES.cpp
+
+#include "stdafx.h"
+#include <iostream>
+#include <conio.h>
+
+using namespace std;
+
+struct tvector{
+	int vecElem[30];
+};
+
+void cargar(tvector vec[], int n)
+{
+	int i,k;
+	for(i=0; i<n; i++)
+	{
+		cout<<endl<<"Cargar en vector: "<<i<<endl;
+		for(k=0; k<n; k++)
+		{
+			cout<<"Elemento: ";
+			cin>> vec[i].vecElem[k];
+		}
+	}
+}
+
+void mostrar(tvector vec[], int n)
+{
+	int i,k;
+	cout<<endl<<"El vector de vetores es: "<<endl;
+	for(i=0; i<n; i++)
+	{
+		for(k=0; k<n; k++)
+		{
+			cout<<vec[i].vecElem[k];
+		}
+		cout<<endl;
+	}
+}
+
+bool veriEsPrimo(int n)
+{
+	bool k=true;
+	int i;
+	for (i=2;i<n;i++)
+	{
+		if (n % i == 0)
+		{
+			k=false;
+		}
+	}
+	return(k);
+}
+
+int obtSumaDigPrimo(int n)
+{
+	int d,s=0;
+	while(n>0)
+	{
+		d = n % 10;
+		if(veriEsPrimo(d) == true)
+		{
+			s = s + d;
+		}
+	n = n/10;
+	}
+return (s);
+}
+
+int sumarDigitosPrimos(tvector vec[], int n)
+{
+	int i,k,s=0;
+	for(i=0; i<n; i++)
+	{
+		for(k=0; k<n; k++)
+		{
+			s = s + obtSumaDigPrimo(vec[i].vecElem[k]);
+		}
+	}
+	return(s);
+}
+
+int sumarDigitosPrimosdelVector(tvector vec[], int n)
+{
+	int i,k,s=0;
+	for(i=0; i<n; i++)
+	{
+		for(k=0; k<n; k++)
+		{
+			s = s + obtSumaDigPrimo(vec[i].vecElem[k]);
+		}
+	}
+	return(s);
+}
+
+int invertir(int n)
+{
+	int d,s=0;
+	while(n>0)
+	{
+		d = n % 10;
+		s = s*10 + d;
+		n = n / 10;
+	}
+	return(s);
+}
+
+int EliminarDigPrimo (int n)
+{
+int d,s=0;
+	while(n>0)
+	{
+		d = n % 10;
+		if(veriEsPrimo(d) == false)
+		{
+			s = s + d;
+		}
+	n = n/10;
+	}
+return (invertir(s));
+}
+
+void eliminarNumerosConDigitosPrimosdelVector(tvector vec[], int n)
+{
+int i,k,s=0;
+	for(i=0; i<n; i++)
+	{
+		for(k=0; k<n; k++)
+		{
+			vec[i].vecElem[k] = EliminarDigPrimo(vec[i].vecElem[k]);
+		}
+	}
+}
+int main()
+{
+tvector vec[30];
+int n;
+cout<<"Ingresar tamaño: ";
+cin>>n;
+cargar(vec,n);
+mostrar(vec,n);
+eliminarNumerosConDigitosPrimosdelVector(vec,n);
+cout<<endl<<"La suma de digitos primos es >>> "<<sumarDigitosPrimosdelVector(vec,n);
+getch();
+return(1);
+}
