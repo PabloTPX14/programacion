@@ -1,0 +1,63 @@
+// Vectores dentro de Matriz.cpp : main project file.
+
+#include "stdafx.h"
+#include <iostream>
+#include <stdio.h>
+#include <conio.h>
+
+using namespace std;
+#define NFIL 10
+#define NCOL 10
+
+struct elemMat{
+	int vec[NFIL];
+};
+
+void Cargar(elemMat mat[NFIL][NCOL], int fil, int col)
+{
+	int i,j,k;
+	for(i=0;i<fil;i++)
+	{
+		for(j=0;j<col;j++)
+		{
+			for(k=0;k<col;k++)
+			{
+				cout<<"Ingresar matriz["<<i<<","<<j<<","<<k<<"]:";
+				cin>>mat[i][j].vec[k]<<" ";
+			}
+		cout<<endl;
+		}
+	cout<<endl;
+	}
+}
+
+void Mostrar(elemMat mat[NFIL][NCOL], int fil, int col)
+{
+	int i,j,k;
+	cout<<endl<<"La matriz de vectores es: "<<endl;
+	for(i=0;i<fil;i++)
+	{
+		for(j=0;j<col;j++)
+		{
+			for(k=0;k<col;k++)
+			{
+				cout << setw(4)<<mat[i][j].vec[k]<<" ";
+			}
+		cout<<" ";
+		}
+	cout<<endl;
+	}
+}
+
+int main( )
+{
+    elemMat matriz[NFIL][NCOL];
+	int n,m;
+	cout<<"Ingresar nro de filas = columnas: ";
+	cin>>n;
+	n=m;
+	Cargar(matriz,n,m);
+	Mostrar(matriz,n,m);
+	getch();
+	return(1);
+}
