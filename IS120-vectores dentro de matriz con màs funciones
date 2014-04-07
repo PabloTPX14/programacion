@@ -1,0 +1,147 @@
+// Vector dentro de matriz.cpp : Defines the entry point for the console application.
+
+#include "stdafx.h"
+#include <iostream>
+#include <iomanip>
+#include <conio.h>
+
+using namespace std;
+#define NFIL 10
+#define NCOL 10
+
+struct elemMat{
+int vec[NFIL];
+};
+
+void Cargar(elemMat mat[NFIL][NCOL], int fil, int col)
+{
+int i,j,k;
+for(i=0;i<fil;i++)
+{
+for(j=0;j<col;j++)
+{
+for(k=0;k<col;k++)
+{
+cout<<"Ingresar matriz["<<i<<","<<j<<","<<k<<"]:";
+cin>>mat[i][j].vec[k]<<" ";
+}
+cout<<endl;
+}
+cout<<endl;
+}
+}
+
+
+void Mostrar(elemMat mat[NFIL][NCOL], int fil, int col)
+{
+int i,j,k;
+cout<<endl<<"La matriz de vectores es: "<<endl;
+for(i=0;i<fil;i++)
+{
+for(j=0;j<col;j++)
+{
+for(k=0;k<col;k++)
+{
+cout << setw(4)<<mat[i][j].vec[k]<<" ";
+}
+cout<<" ";
+}
+cout<<endl;
+}
+}
+
+int sumarElemPrimos(elemMat mat[NFIL][NCOL], int fil, int col)
+{
+	int i,j,k,s=0;
+	for(i=0;i<fil;i++)
+	{
+		for(j=0;j<col;j++)
+	{
+		for(k=0;k<col;k++)
+		{
+			if(verifEsPrimo(mat[i][j].vec[k])==true)
+			{
+				s = s + mat[i][j].vec[k];
+			}
+		}
+
+void mostrarSumaxFila(elemMat mat[NFIL][NCOL], int fil, int col)
+{
+ int i,j,k,s=0;
+	for(i=0;i<fil;i++)
+	{
+		for(j=0;j<col;j++)
+	{
+		for(k=0;k<col;k++)
+		{
+			s = s + mat[i][j].vec[k];
+		}
+	}
+		cout<<"\nLa suma de fila es >>: "<<s;
+		s=0;
+}
+
+void CargarAleatoriamente(elemMat mat[NFIL][NCOL], int fil, int col)
+{
+ int i,j,k,s=0;
+	for(i=0;i<fil;i++)
+	{
+		for(j=0;j<col;j++)
+	{
+		for(k=0;k<col;k++)
+		{
+			mat[i][j].vec[k] = rand()%100;
+		}
+	}
+	}
+}
+
+void invertir(int vec[], int n)
+{
+	int i,aux;
+	for(i=0;i<n/2;i++)
+	{
+		aux = vec[i];
+		vec[i] = vec[n-1-i];
+		vec[n-1-i] = aux;
+
+	}
+}
+void IntercambiarFilaxcolumna(elemMat mat[NFIL][NCOL], int fil, int col)
+{
+	int i,j,k,aux;
+	for(i=0;i<fil;i++)
+	{
+		for(j=0;j<col;j++)
+		{
+			if(i < j)
+			{
+				for(k=0;k<col;k++)
+				{
+					aux = mat[i][j].vec[k];
+					mat[i][j].vec[k] = mat[j][i].vec[k];
+					mat[j][i].vec[k] = aux;
+
+				}
+			}
+			invertir(mat[i][j].vec,fil);
+		}
+	}
+}
+
+int main( )
+{
+elemMat matriz[NFIL][NCOL];
+int n,m;
+cout<<"Ingresar nro de filas = columnas: ";
+cin>>n;
+n=m;
+Cargar(matriz,n,m);
+CargarAleatoriamente(matriz,n,m);
+Mostrar(matriz,n,m);
+mostrarSumaxFila(matriz,n,m);
+IntercambiarFilaxcolumna(matriz,n,m);
+cout<<endl<<"La suma de elementos primos es >>: "<<sumarElemPrimos(matriz,n,m);
+getch();
+return(1);
+}
