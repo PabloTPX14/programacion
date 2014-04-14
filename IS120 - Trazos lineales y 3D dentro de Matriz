@@ -1,0 +1,92 @@
+// Vectores nxm dentro de matriz.cpp : Defines the entry point for the console application.
+//
+
+#include "stdafx.h"
+#include <iostream>
+#include <conio.h>
+using namespace std;
+#define NFIL 20
+#define NCOL 20
+char pant [NFIL][NCOL]; //variable global
+
+void mostrar()
+{
+	int i,j;
+	for (i=0; i<NFIL; i++)
+	{
+		for(j=0; j<NCOL; j++)
+		{
+			cout << pant[i][j];
+		}
+	cout<<endl;
+	}
+}
+void limpiar()
+{
+	int i,j;
+	for(i=0;i<NFIL;i++)
+	{
+		for(j=0; j<NCOL; j++)
+		{
+			pant[i][j] = ' ';
+		}
+	}
+	mostrar();
+}
+void dibLinHorizontal(int x1, int y1, int x2, int y2)
+{
+	int i;
+	for(i=y1; i<y2; i++)
+	{
+		pant[x1][i] = 196;
+	}
+}
+void dibLinVertical(int x1, int y1, int x2, int y2)
+{
+	int i;
+	for(i=x1; i<x2; i++)
+	{
+		pant[i][y1] = 179;
+	}
+}
+void dibSquare(int x1, int y1, int x2, int y2)
+{
+	dibLinHorizontal(x1,y1,x1,y2);
+	dibLinHorizontal(x2,y1,x2,y2);
+	dibLinVertical(x1,y1,x2,y1);
+	dibLinVertical(x1,y2,x2,y2);
+	pant[x1][y1] = 218;
+	pant[x1][y2] = 191;
+	pant[x2][y1] = 192;
+	pant[x2][y2] = 217;
+}
+void dibFigura3D(int x1, int y1, int x2, int y2)
+{
+	int i;
+	dibLinHorizontal(x1,y1,x1,y2);
+	dibLinHorizontal(x2,y1,x2,y2);
+	dibLinVertical(x1,y1,x2,y1);
+	dibLinVertical(x1,y2,x2,y2);
+	for(i=y1; i<y2; i++)
+	{
+		pant[x2+1][i+1] = 178:
+	}
+	for(i=x1; i<x2; i++)
+	{
+		pant[i+1][y2+1] = 178;
+	}
+	pant[x2+1][y2+1] = 178;
+	pant[x1][y1] = 218;
+	pant[x1][y2] = 191;
+	pant[x2][y1] = 192;
+	pant[x2][y2] = 217;
+}
+
+int main()
+{
+limpiar();
+dibFigura3D(3,5,15,26);
+mostrar();
+getch();
+return(1);
+}
