@@ -1,0 +1,81 @@
+// Archivos y Bases.cpp : Defines the entry point for the console application.
+//
+
+#include "stdafx.h"
+#include <stdio.h> //contiene definiciones para gestionar archivos
+#include <conio.h>
+#include <iomanip> //dar formato a cout
+
+using namespace std;
+
+struct regAgenda{
+	char nombre[30];
+	int edad;
+	char email[80];
+	char estado; //determina si un registro esta limitado.
+	//Si N=0 no esta eliminado, si es = S si esta eliminado
+}
+
+void adicionarRegistro()
+{
+	FILE*ptr;
+	regAgenda reg;
+	cout<<endl<<"Ingresar nombre:";
+	do{
+		gets(reg.nombre);
+	}
+	while strlen((reg.nombre)==0);
+	cout<<"Edad:";
+	cin>> reg.edad;
+	cout<<"E-mail:";
+	do{
+		gets(reg.email);
+	}
+	while(strlen(reg.email)==0);
+	reg.estado='N';
+	ptr=fopen("agenda.dat", "ab"); //abre y coloca el ptr al final del archivo para escribir
+	fwrite(&reg,sizeof(regAgenda),1,ptr); //escribe el contenido de reg en el archivo apuntado por ptr
+	fclose(ptr);
+}
+void crearArchivo()
+{
+	FILE*ptr; //Se define una varable que sera el puntero del archivo
+	ptr=fopen("agenda.dat", "wb");  //Se abre el archivo, si no existe se crea, si existe se sobrescribe.
+	fclose(ptr); //Se cierra el archivo
+	cout<endl<<"Archivo creado...";
+}
+void listado()
+{
+	FILE*ptr;
+	regAgenda reg;
+	int c=0;
+	ptr=fopen("agenda.dat", "rb"); //abre en modo lectura y coloca el ptr en el 1ª registro
+	if(ptr!=NULL) //verifica que el archivo exista
+	{
+	fread(&reg,sizeof(regAgenda),1,ptr); //lee el registro y se almacena en reg
+	cout<<endl<<"=========================================================";
+	cout<<endl<<"                 **LISTADO DE AGENDA**                   ";
+	cout<<endl<<"---------------------------------------------------------";
+	while(feof(ptr)==false)//mientras no sea el final del archivo
+	     {
+			 if(reg.estado == 'N') //verifica que el registro no este eliminado
+			 {
+			 cout<<endl<<++c<<".-"<<left<<setw(30)<<reg.nombre<<setw(5)<<reg.edad<<setw(30)<<reg.email;
+			 }
+			 fread(&reg, sizeof(regAgenda),1,ptr); //lee el registro y se almacena en reg
+	     }
+	cout<<endl<<"=========================================================":
+	fclose(ptr);
+	}
+	else{
+		cout<<endl<<"Archivo no existente";
+	}
+}
+int main()
+{
+crearArchivo();
+adicionarRegistro();
+listado();
+getch();
+return(1);
+}
