@@ -1,0 +1,202 @@
+// Proyecto Principal
+#include "stdafx.h"
+#include <iostream>
+#include <stdio.h>
+#include <conio.h>
+#include <iomanip>
+#include "progProducto.h"
+//#include "progVentas.h"
+using namespace std;
+
+int main()
+{
+	int opcion;
+	do{
+		cout<<endl<<endl<<" *** MENU PRINCIPAL *** ";
+		cout<<endl<<"1.- Gestionar PRODUCTO";
+		cout<<endl<<"2.- Gestionar VENTAS";
+		cout<<endl<<"0.- Salir";
+		cout<<endl<<"Seleccionar opcion:";
+		cin>>opcion;
+		switch(opcion)
+		{
+		case 1: menuProducto();
+			break;
+		case 2: //menuVentas();
+			break;
+		}
+	}
+	while(opcion !=0);
+	return 0;
+}
+
+//Archivo Binaio VENTAS
+#include "stdafx.h"
+#include <iostream>
+#include <stdio.h>
+#include <conio.h>
+#include <iomanip>
+using namespace std;
+
+struct regVentas
+{
+	int idVta;
+	int idCliente;
+	int idProd;
+	int cantidad;
+};
+
+void crearArchVentas()
+{
+	FILE*ptr;
+	ptr= fopen("ventas.dat", "wb");
+	fclose(ptr);
+}
+bool verificaExisteciaProducto(int idProd)
+{
+	bool k = false;
+	FILE*ptr;
+	regProducto reg;
+	ptr=fopen("producto.dat", "rb");
+	if(ptr!=NULL)
+	{
+		fread(&reg,sizeof(regProducto),1,ptr);
+		while((feof(ptr)==false)&&(k==false))
+		{
+			if(reg.idProd == idProd)
+			{
+				k = true;
+			}
+			fread(&reg, sizeof(regProducto),1,ptr);
+		}
+	fclose(ptr);
+	}
+	return(k);
+}
+
+void adicionarVentas()
+{
+	FILE*ptr;
+	regVentas reg;
+	cout<<"Ingresar Id Venta:";
+	cin>>reg.idVta;
+	cout<<"Ingresar Id Cliente:";
+	cin>>reg.idCliente;
+	cout<<"Ingresar Id Producto:";
+	cin>> reg.idProd;
+	cout<<"Cantidad:";
+	cin>>reg.cantidad;
+	ptr=fopen("ventas.dat", "ab");
+	fwrite(&reg,sizeof(regVentas),1,ptr);
+	fclose(ptr);
+}
+void listarVentas()
+{
+	int c=0;
+	ptr= fopen("ventas.dat","rb");
+	if(ptr!=NULL)
+	{
+		cout<<endl<<"======================================================";
+		cout<<endl<<"            << ** LISTADO DE VENTAS ** >>             ";
+		cout<<endl<<"------------------------------------------------------";
+		cout<<endl<<"      IdVenta   IdCliente   IdProd   Cantidad         ";
+		cout<<endl<<"------------------------------------------------------";
+		fread(&reg
+	}
+}
+
+
+// Proyecto 1.cpp : Defines the entry point for the console application.
+//
+
+#include "stdafx.h"
+#include <iostream>
+#include <stdio.h>
+#include <conio.h>
+#include <iomanip>
+using namespace std;
+
+struct regProducto{
+	int idProd;
+	char nombre[30];
+	int precio;
+};
+
+void crearArchProducto()
+{
+	FILE*ptr;
+	ptr=fopen("producto.dat", "wb");
+	fclose(ptr);
+}
+void adicionarProducto()
+{
+	FILE*ptr;
+	regProducto reg;
+	cout<<"Ingresar IdProducto: ";
+	cin>> reg.idProd;
+	cout<< "Ingresar Nombre: ";
+	do
+	{
+		gets(reg.nombre);
+	}
+	while(strlen(reg.nombre)==0);
+	cout<<"Precio: ";
+	cin>>reg.precio;
+	ptr=fopen("producto.dat","ab");
+	fwrite(&reg,sizeof(regProducto),1,ptr);
+	fclose(ptr);
+}
+
+void listarProducto()
+{
+	FILE*ptr;
+	regProducto reg;
+	int c=0;
+	ptr= fopen("producto.dat", "rb");
+	if(ptr!= NULL)
+	{
+		cout<<endl<<"======================================================";
+		cout<<endl<<"            <<**LISTADO DE PRODUCTOS**>>";
+		cout<<endl<<"------------------------------------------------------";
+		cout<<endl<<"   IdProducto   Nombre    Precio        ";
+		cout<<endl<<"------------------------------------------------------";
+		fread(&reg, sizeof(regProducto),1,ptr);
+		while(feof(ptr)==false)
+		{
+			c++;
+			cout<<endl<<left<<c<<"."<<setw(5)<<reg.idProd<<set(30)<<reg.nombre<<set(8)<<reg.precio;
+			fread(&reg,sizeof(regProducto),1,ptr);
+		}
+		cout<<endl<<"======================================================";
+		fclose(ptr);
+	}
+	else
+	{
+		cout<<endl<<"Archivo no existe...";
+	}
+}
+int menuProducto()
+{
+	int opcion;
+	do
+	{
+		cout<<endl<<endl<<" *** MENU PRODUCTO *** ";
+		cout<<endl<<"1. Crear Archivo PRODUCTO ";
+		cout<<endl<<"2. Adicionar Registro en PRODUCTO ";
+		cout<<endl<<"3. Reporte de PRODUCTOS ";
+		cout<<endl<<"0. Salir ";
+		cout<<endl<<"Seleccionar Opcion: ";
+		cin>>opcion;
+		switch(opcion)
+		{
+		case 1: crearArchProducto();
+			break;
+		case 2: adicionarProducto();
+			break;
+		case 3: listarProducto();
+			break;
+		}
+	}
+	while(opcion != 0);
+	return 0;
+}
